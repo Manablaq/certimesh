@@ -47,6 +47,11 @@ def _as_address(address: Address) -> Address:
 def _bounded(value: str, label: str, maximum: int) -> str:
     if not isinstance(value, str):
         _fail(f"{label} must be text")
+    # The current GenLayer CLI documents `str: value` arguments but passes
+    # that compatibility marker through literally. Normalize only that exact
+    # marker here, then apply the same strict validation to the resulting text.
+    if value.startswith("str:"):
+        value = value[4:]
     value = value.strip()
     if not value or len(value) > maximum:
         _fail(f"{label} is empty or too long")
@@ -62,6 +67,12 @@ def _json(value: str, label: str) -> str:
     if not isinstance(parsed, (dict, list)) or not parsed:
         _fail(f"{label} must be a non-empty JSON object or array")
     return value
+
+
+def _json_object(value: dict, label: str) -> str:
+    if not isinstance(value, dict) or not value:
+        _fail(f"{label} must be a non-empty JSON object")
+    return _json(json.dumps(value, sort_keys=True, separators=(",", ":")), label)
 
 
 def _sha(value: str) -> str:
@@ -177,6 +188,13 @@ class CertiMeshProgramRegistry(gl.Contract):
         if program_id in self.latest_program_version:
             _fail("Program already exists")
         return self._create(program_id, u256(1), criteria_json, evidence_policy_json, primary_authority, corroborating_authority, challenge_window_seconds, max_evidence_age_seconds, certificate_validity_seconds, max_assessment_horizon_seconds)
+
+    @gl.public.write
+    def create_program_from_objects(self, program_id: str, criteria: dict, evidence_policy: dict, primary_authority: Address, corroborating_authority: Address, challenge_window_seconds: u256, max_evidence_age_seconds: u256, certificate_validity_seconds: u256, max_assessment_horizon_seconds: u256) -> u256:
+        program_id = _bounded(program_id, "Program id", MAX_PROGRAM_ID_CHARS)
+        if program_id in self.latest_program_version:
+            _fail("Program already exists")
+        return self._create(program_id, u256(1), _json_object(criteria, "Criteria"), _json_object(evidence_policy, "Evidence policy"), primary_authority, corroborating_authority, challenge_window_seconds, max_evidence_age_seconds, certificate_validity_seconds, max_assessment_horizon_seconds)
 
     @gl.public.write
     def create_program_version(self, program_id: str, criteria_json: str, evidence_policy_json: str, primary_authority: Address, corroborating_authority: Address, challenge_window_seconds: u256, max_evidence_age_seconds: u256, certificate_validity_seconds: u256, max_assessment_horizon_seconds: u256) -> u256:

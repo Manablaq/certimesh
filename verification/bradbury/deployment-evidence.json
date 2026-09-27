@@ -1,74 +1,127 @@
 {
-  "schema": "certimesh-bradbury-deployment-evidence-v1",
-  "status": "PARTIAL_SPLIT_DEPLOYMENT",
-  "recorded_at": "2026-09-27T07:11:40Z",
+  "schema": "certimesh-bradbury-deployment-evidence-v2",
+  "status": "SPLIT_DEPLOYMENT_PROGRAM_COMMITTED",
+  "recorded_at": "2026-09-27T15:09:23Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
   "consensus_contract": "0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D",
-  "deployer": "0x1f87ae197af539253978d435ad45ccf28fb95024",
+  "deployer": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
   "canonical_source": {
     "path": "contracts/certimesh_core.py",
-    "bytes": 40647,
     "sha256": "ab9614a2b4a7093b50bf8112fba0296272cef91563fb37f6fa6a94011ba52771"
   },
-  "deployment_artifact": {
-    "path": "contracts/certimesh_core_deploy.py",
-    "bytes": 23246,
-    "sha256": "94b22463130339b2898f9bb190606f6cb31aa3604ef4a5c441411bf8830d2218",
-    "serialized_bytes": 23254,
-    "consensus_calldata_bytes": 23492,
-    "read_only_eth_estimate_gas": {
-      "hex": "0x12400a8",
-      "decimal": 19136680
-    }
-  },
   "local_verification": {
-    "canonical_direct_mode": "12 passed",
-    "deployment_artifact_direct_mode": "12 passed",
-    "canonical_genvm_validation": "PASS: 17 methods, 6 views, 11 writes, 0 constructor parameters",
-    "deployment_artifact_genvm_validation": "PASS: 17 methods, 6 views, 11 writes, 0 constructor parameters",
+    "test_suite": "16 passed",
+    "supported_runtime_bundle_gate": "READY_FOR_MULTI_VALIDATOR_RUN",
+    "release_manifest_sha256": "b8cf2d4448af528f774ed81726c99d529d867616ae6915ef9fb58463de3c421f",
     "release_gate": "PASS",
-    "supported_runtime_bundle_gate": "READY_FOR_MULTI_VALIDATOR_RUN"
+    "genvm_lint": "PASS: program registry, assessment registry, evidence registry, and adjudicator deployment artifacts"
   },
-  "deployment_attempt": {
+  "rejected_monolith": {
     "command": "genlayer deploy --contract contracts/certimesh_core_deploy.py --rpc https://rpc-bradbury.genlayer.com",
     "rpc_submission_result": "REJECTED",
     "rejected_request_hash": "0x3b5b3334525a12b6e17271c9977d5b5603295329ce168f92c1e530e06ed507dd",
     "error": "gas limit too high",
     "consensus_transaction_id": null,
-    "contract_address": null,
-    "finality": null
+    "contract_address": null
   },
   "split_architecture": {
-    "release_manifest_sha256": "8eb73dbc14045b2c7eaee7accc39ea6025a6228ff2d0d69e1d120a58302ef383",
+    "manifest_sha256": "b8cf2d4448af528f774ed81726c99d529d867616ae6915ef9fb58463de3c421f",
     "program_registry": {
       "artifact": "contracts/certimesh_program_registry_deploy.py",
-      "artifact_sha256": "8aaf98a0e9216d2ddda0f55692f7bedc999a17587f398542a5936ea798156e60",
-      "transaction_id": "0x99886300d2f11edb308526e2c6d4efd472f60ab8cf98a472e808d8f1974f8daa",
-      "contract_address": "0x0491Ff6f008564424724151cB45F970De5aC7D70",
-      "execution_hash": "0xcd6cf22d944db497c923a6835a00544e45b66fb72748694891d0bfa020010cca",
+      "artifact_sha256": "ca016e5e785a52e0bdc7b63887e4b4184d78b2237b1c56ed22b2e85d7f77394b",
+      "transaction_id": "0x04f6a282286dcc9e644704f1126013de7dc87296dda27284ce5908d5cb7b0a2c",
+      "contract_address": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
+      "execution_hash": "0xdbd60b2d1986a1cc8434f1a236ad2fc7b3b69580698233bbb4fd33a5b896f905",
       "consensus_status": "ACCEPTED",
-      "execution_status": "FINISHED",
+      "execution_status": "FINISHED_WITH_RETURN",
       "purpose": "Immutable program/version commitments"
     },
-    "assessment_registry_attempts": [
-      {
-        "transaction_id": "0xb89714466c59df4fad6b6611bc973aff610dd2e6a146a301ec4edae0fa4a34bf",
-        "contract_address": "0xf9F0Ae0bac3F252D5923E2A57Cda1d13D46CB6E3",
-        "execution_status": "FINISHED_WITH_ERROR",
-        "error": "Invalid address",
-        "cause": "The deployment command used an untyped address: argument."
+    "assessment_registry": {
+      "artifact": "contracts/certimesh_registry_deploy.py",
+      "artifact_sha256": "94178c293eb2a892a57d6b464ca8e770c35fcb0458aec39be4c975bad4aeb65a",
+      "transaction_id": "0xc201649501dec606ae199706facdabc843976e44c242e2e723e62836276edb89",
+      "contract_address": "0x5cFC35e932a720f2671521350aB7f43780Ba72f0",
+      "execution_hash": "0x0d8f69c0157e2037174cb031bb9c3bbb710cf2d675545f86f4fab77fdaf4f366",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "constructor_program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2"
+    },
+    "evidence_registry": {
+      "artifact": "contracts/certimesh_evidence_registry_deploy.py",
+      "artifact_sha256": "1ce502712df43c5c4211dd54a54ed028a2042675326e7ad201eeb01b7f51468c",
+      "transaction_id": "0x042d2b6a21cec4d05f0b757a3b5e1356959ea3f689760cfa92503cc489eb5567",
+      "contract_address": "0xDBfD4a472402aC94Af412BB25F5dAb6d5D4e5800",
+      "execution_hash": "0x5283243feab2270d3b132c1dc99d49d0f1d28d16113cd70bff3052c81a7543f7",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "constructor_assessment_registry": "0x5cFC35e932a720f2671521350aB7f43780Ba72f0",
+      "constructor_program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2"
+    },
+    "adjudicator": {
+      "artifact": "contracts/certimesh_adjudicator_deploy.py",
+      "artifact_sha256": "81deb5761daf1cd136142df9d56419b70f74fdff07683de9cd2ffb48ed2cc30a",
+      "transaction_id": "0x1eebfacc00be48cb8559cb6fb9aa737ea7b62c4d46757b8602eef5220f03d1fc",
+      "contract_address": "0x7c52D0bA9A026a6fE6AD1604343bBaf0966e5520",
+      "execution_hash": "0x986154c4dca02e57cc81c3f5fae267d1a08096435012db813e582e64a3f87d08",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "constructor_assessment_registry": "0x5cFC35e932a720f2671521350aB7f43780Ba72f0"
+    },
+    "bindings": {
+      "evidence_registry": {
+        "transaction_id": "0xceea8f9004822b820a40881e36239099cb96ffd4f46b10203c10186a020779ec",
+        "execution_hash": "0xd811a406e3c61e3c9da932393d918158630450a6fa7df9c38cf7ec0737b819ea",
+        "bound_address": "0xDBfD4a472402aC94Af412BB25F5dAb6d5D4e5800",
+        "consensus_status": "ACCEPTED",
+        "execution_status": "FINISHED_WITH_RETURN"
       },
-      {
-        "transaction_id": "0x391ea9281157be0940d6ed7392f17f86a6ab136c85ded59a89b8e016b27e3874",
-        "contract_address": "0xdCe4091511120326582445C9538dfDa430575a10",
-        "execution_status": "FINISHED_WITH_ERROR",
-        "error": "AttributeError: str object has no attribute as_bytes",
-        "cause": "The deployment command used a raw address argument instead of the documented addr# encoding."
+      "adjudicator": {
+        "transaction_id": "0x4ec6476066c06cf7215b55102974afc136219d2b54e3f36c85f99e0789608f06",
+        "execution_hash": "0x66ded565a9249a93cb039e26d5e2ac44867c87141f42c7c347ea6346185b6876",
+        "bound_address": "0x7c52D0bA9A026a6fE6AD1604343bBaf0966e5520",
+        "consensus_status": "ACCEPTED",
+        "execution_status": "FINISHED_WITH_RETURN"
       }
-    ],
-    "next_command": "genlayer deploy --contract contracts/certimesh_registry_deploy.py --rpc https://rpc-bradbury.genlayer.com --args addr#0491Ff6f008564424724151cB45F970De5aC7D70"
+    },
+    "readback_verification": {
+      "assessment_registry_evidence_address": "0xdbfd4a472402ac94af412bb25f5dab6d5d4e5800",
+      "assessment_registry_adjudicator_address": "0x7c52d0ba9a026a6fe6ad1604343bbaf0966e5520",
+      "program_latest_version": 1,
+      "program_id": "certification",
+      "program_snapshot_verified": true
+    },
+    "program_commitment": {
+      "transaction_id": "0x7899deabfeea55f601c59706e4beb42b0cdd0f8eea6aa5d198d6bbe62b7f846d",
+      "execution_hash": "0xe253c558658cfa8d626ea3a70a968baaecb70099e55d590922f78841381a2f38",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "program_id": "certification",
+      "version": 1,
+      "criteria": {"all": ["subject satisfies every committed criterion"]},
+      "evidence_policy": {"max_age_seconds": 86400, "require_independent_sources": true},
+      "primary_authority": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
+      "corroborating_authority": "0x5bB49021001200fE8156a81c7fcF097e535e7181",
+      "challenge_window_seconds": 3600,
+      "max_evidence_age_seconds": 86400,
+      "certificate_validity_seconds": 604800,
+      "max_assessment_horizon_seconds": 259200,
+      "criteria_hash": "85c4772f2ad8cfb1950c85b1cea4274451dec12d0aa0217bce35a220d1e28e85",
+      "evidence_policy_hash": "fa2e60aa3e831a1d3ae7a2411549028e824b403b2a8a0b840c9491e6f2a35783"
+    }
   },
-  "interpretation": "The original monolith was rejected before consensus because its deployment envelope exceeded the provider gas limit. The split Program Registry is a real Bradbury deployment. The Assessment Registry retry is now corrected to use the CLI's typed addr# encoding; Evidence Registry, Adjudicator, reciprocal bindings, and program creation remain pending the deployer's keystore unlock. No existing VerdictGraph deployment is reused as CertiMesh evidence."
+  "negative_evidence": [
+    {
+      "attempt": "program creation with undocumented literal str: prefixes",
+      "result": "REVERTED_BEFORE_STATE_COMMIT",
+      "reason": "The CLI passes the documented marker literally; the typed object entrypoint is the supported compatibility path."
+    },
+    {
+      "attempt": "plain JSON object arguments against the old string-only entrypoint",
+      "result": "REVERTED_BEFORE_STATE_COMMIT",
+      "reason": "The old method correctly rejected dict input as non-text; no program state was committed."
+    }
+  ],
+  "remaining_live_path": "The split deployment, reciprocal wiring, and immutable program commitment are live. A complete assessment lifecycle still requires two authority accounts to attest independent approved HTTPS evidence, followed by evidence binding, assessment, challenge-window handling, and certificate readback on Bradbury."
 }
