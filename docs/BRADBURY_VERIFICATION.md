@@ -1,0 +1,21 @@
+# Bradbury verification runbook
+
+Bradbury verification is a post-Direct-Mode release gate. The frozen commit
+must be deployed exactly as tested; source, ABI, dependency lock, and runtime
+manifest hashes must be recorded before deployment.
+
+The live campaign must cover:
+
+1. compliant evidence -> `CERTIFIED`
+2. noncompliant evidence -> `REJECTED`
+3. conflicting/unavailable evidence -> `REPAIR`
+4. challenge -> fresh generation -> reassessment -> finalization
+
+For every case record network, chain id, contract address, contract source hash,
+deployment transaction, method/input commitments, GenLayer transaction id,
+final status, execution result, final state, raw response hash, timestamp, and
+Git commit. `ACCEPTED` alone is not proof; require `FINALIZED` and
+`FINISHED_WITH_RETURN`.
+
+Never use `--leader-only` as proof. If a live write returns a transaction id,
+poll it instead of resubmitting.
