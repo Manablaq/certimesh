@@ -31,9 +31,12 @@ creates a certificate. An expired assessment is terminal and cannot be revived.
 
 ```text
 contracts/certimesh_core.py          one deployable product contract
+contracts/certimesh_core_deploy.py   generated compact transport artifact
 tests/test_certimesh_direct.py       adversarial Direct Mode suite
 verification/supported_runtime/      multi-validator evidence package location
+verification/bradbury/               live network evidence and blockers
 scripts/check_release.py             source and forbidden-surface gate
+scripts/build_deploy_artifact.py     ABI-preserving deployment artifact builder
 scripts/check_supported_runtime_bundle.py  runtime bundle gate
 docs/ARCHITECTURE.md                 storage and flow
 docs/API.md                          write/view API
@@ -46,6 +49,7 @@ Run from a Python 3.12.14 environment with `requirements-lock.txt` installed:
 ```bash
 python scripts/check_release.py
 python scripts/check_supported_runtime_bundle.py
+python scripts/build_deploy_artifact.py
 gltest --contracts-dir contracts tests
 ```
 

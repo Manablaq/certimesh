@@ -1,0 +1,44 @@
+{
+  "schema": "certimesh-bradbury-deployment-evidence-v1",
+  "status": "BLOCKED_BEFORE_CONSENSUS_ACCEPTANCE",
+  "recorded_at": "2026-09-27T07:11:40Z",
+  "network": "GenLayer Bradbury Testnet",
+  "chain_id": 4221,
+  "rpc_url": "https://rpc-bradbury.genlayer.com",
+  "consensus_contract": "0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D",
+  "deployer": "0x1f87ae197af539253978d435ad45ccf28fb95024",
+  "canonical_source": {
+    "path": "contracts/certimesh_core.py",
+    "bytes": 40647,
+    "sha256": "ab9614a2b4a7093b50bf8112fba0296272cef91563fb37f6fa6a94011ba52771"
+  },
+  "deployment_artifact": {
+    "path": "contracts/certimesh_core_deploy.py",
+    "bytes": 23246,
+    "sha256": "94b22463130339b2898f9bb190606f6cb31aa3604ef4a5c441411bf8830d2218",
+    "serialized_bytes": 23254,
+    "consensus_calldata_bytes": 23492,
+    "read_only_eth_estimate_gas": {
+      "hex": "0x12400a8",
+      "decimal": 19136680
+    }
+  },
+  "local_verification": {
+    "canonical_direct_mode": "12 passed",
+    "deployment_artifact_direct_mode": "12 passed",
+    "canonical_genvm_validation": "PASS: 17 methods, 6 views, 11 writes, 0 constructor parameters",
+    "deployment_artifact_genvm_validation": "PASS: 17 methods, 6 views, 11 writes, 0 constructor parameters",
+    "release_gate": "PASS",
+    "supported_runtime_bundle_gate": "READY_FOR_MULTI_VALIDATOR_RUN"
+  },
+  "deployment_attempt": {
+    "command": "genlayer deploy --contract contracts/certimesh_core_deploy.py --rpc https://rpc-bradbury.genlayer.com",
+    "rpc_submission_result": "REJECTED",
+    "rejected_request_hash": "0x3b5b3334525a12b6e17271c9977d5b5603295329ce168f92c1e530e06ed507dd",
+    "error": "gas limit too high",
+    "consensus_transaction_id": null,
+    "contract_address": null,
+    "finality": null
+  },
+  "interpretation": "The deployment request did not reach consensus acceptance or finalization. This file is negative evidence of the provider gas-envelope blocker, not proof of deployment. No existing VerdictGraph deployment is reused as CertiMesh evidence."
+}

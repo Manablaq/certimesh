@@ -19,3 +19,14 @@ Git commit. `ACCEPTED` alone is not proof; require `FINALIZED` and
 
 Never use `--leader-only` as proof. If a live write returns a transaction id,
 poll it instead of resubmitting.
+
+## Current release record
+
+The current frozen source and compact transport artifact pass the local release
+gates, Direct Mode, and GenVM validation. Bradbury read-only gas estimation
+accepts the payload, but the GenLayer CLI deployment request is rejected before
+consensus acceptance with `gas limit too high`. Therefore this repository does
+not claim a deployed CertiMesh address or positive on-chain contract evidence.
+The exact source/artifact hashes, RPC estimate, rejected request hash, and
+negative evidence status are recorded in
+[`verification/bradbury/deployment-evidence.json`](../verification/bradbury/deployment-evidence.json).
