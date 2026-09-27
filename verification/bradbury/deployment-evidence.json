@@ -1,6 +1,6 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v1",
-  "status": "BLOCKED_BEFORE_CONSENSUS_ACCEPTANCE",
+  "status": "PARTIAL_SPLIT_DEPLOYMENT",
   "recorded_at": "2026-09-27T07:11:40Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
@@ -40,5 +40,35 @@
     "contract_address": null,
     "finality": null
   },
-  "interpretation": "The deployment request did not reach consensus acceptance or finalization. This file is negative evidence of the provider gas-envelope blocker, not proof of deployment. No existing VerdictGraph deployment is reused as CertiMesh evidence."
+  "split_architecture": {
+    "release_manifest_sha256": "8eb73dbc14045b2c7eaee7accc39ea6025a6228ff2d0d69e1d120a58302ef383",
+    "program_registry": {
+      "artifact": "contracts/certimesh_program_registry_deploy.py",
+      "artifact_sha256": "8aaf98a0e9216d2ddda0f55692f7bedc999a17587f398542a5936ea798156e60",
+      "transaction_id": "0x99886300d2f11edb308526e2c6d4efd472f60ab8cf98a472e808d8f1974f8daa",
+      "contract_address": "0x0491Ff6f008564424724151cB45F970De5aC7D70",
+      "execution_hash": "0xcd6cf22d944db497c923a6835a00544e45b66fb72748694891d0bfa020010cca",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED",
+      "purpose": "Immutable program/version commitments"
+    },
+    "assessment_registry_attempts": [
+      {
+        "transaction_id": "0xb89714466c59df4fad6b6611bc973aff610dd2e6a146a301ec4edae0fa4a34bf",
+        "contract_address": "0xf9F0Ae0bac3F252D5923E2A57Cda1d13D46CB6E3",
+        "execution_status": "FINISHED_WITH_ERROR",
+        "error": "Invalid address",
+        "cause": "The deployment command used an untyped address: argument."
+      },
+      {
+        "transaction_id": "0x391ea9281157be0940d6ed7392f17f86a6ab136c85ded59a89b8e016b27e3874",
+        "contract_address": "0xdCe4091511120326582445C9538dfDa430575a10",
+        "execution_status": "FINISHED_WITH_ERROR",
+        "error": "AttributeError: str object has no attribute as_bytes",
+        "cause": "The deployment command used a raw address argument instead of the documented addr# encoding."
+      }
+    ],
+    "next_command": "genlayer deploy --contract contracts/certimesh_registry_deploy.py --rpc https://rpc-bradbury.genlayer.com --args addr#0491Ff6f008564424724151cB45F970De5aC7D70"
+  },
+  "interpretation": "The original monolith was rejected before consensus because its deployment envelope exceeded the provider gas limit. The split Program Registry is a real Bradbury deployment. The Assessment Registry retry is now corrected to use the CLI's typed addr# encoding; Evidence Registry, Adjudicator, reciprocal bindings, and program creation remain pending the deployer's keystore unlock. No existing VerdictGraph deployment is reused as CertiMesh evidence."
 }

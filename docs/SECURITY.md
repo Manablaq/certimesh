@@ -18,6 +18,11 @@
   `CHALLENGED`, and `EXPIRED` cannot finalize directly.
 - Finalization is single-use and certificate digests are replay-protected.
 - There is no owner/admin method that can set a decision or certificate.
+- The Registry/Adjudicator binding is reciprocal and write-once; the Registry
+  callback checks the sender, generation, evidence-set digest, and allowed
+  result shape before mutating state.
+- The Registry contains no nondeterministic evaluator, and the Adjudicator has
+  no public state-transition methods besides the Registry-authenticated review.
 - Evidence is untrusted prompt data; it is never treated as protocol instructions.
 
 ## Threats rejected

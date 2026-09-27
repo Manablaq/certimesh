@@ -30,13 +30,23 @@ creates a certificate. An expired assessment is terminal and cannot be revived.
 ## Repository gates
 
 ```text
-contracts/certimesh_core.py          one deployable product contract
-contracts/certimesh_core_deploy.py   generated compact transport artifact
+contracts/certimesh_registry.py      deterministic registry and settlement contract
+contracts/certimesh_registry_deploy.py generated compact registry artifact
+contracts/certimesh_program_registry.py immutable program/version registry
+contracts/certimesh_program_registry_deploy.py generated compact program artifact
+contracts/certimesh_evidence_registry.py isolated evidence attestation/binding registry
+contracts/certimesh_evidence_registry_deploy.py generated compact evidence artifact
+contracts/certimesh_adjudicator.py  isolated nondeterministic review contract
+contracts/certimesh_adjudicator_deploy.py generated compact adjudicator artifact
+contracts/certimesh_core.py          legacy monolith retained only for regression comparison
 tests/test_certimesh_direct.py       adversarial Direct Mode suite
 verification/supported_runtime/      multi-validator evidence package location
 verification/bradbury/               live network evidence and blockers
 scripts/check_release.py             source and forbidden-surface gate
-scripts/build_deploy_artifact.py     ABI-preserving deployment artifact builder
+scripts/build_registry_artifact.py   ABI-preserving registry artifact builder
+scripts/build_program_registry_artifact.py ABI-preserving program artifact builder
+scripts/build_evidence_registry_artifact.py ABI-preserving evidence artifact builder
+scripts/build_adjudicator_artifact.py ABI-preserving adjudicator artifact builder
 scripts/check_supported_runtime_bundle.py  runtime bundle gate
 docs/ARCHITECTURE.md                 storage and flow
 docs/API.md                          write/view API
@@ -49,10 +59,17 @@ Run from a Python 3.12.14 environment with `requirements-lock.txt` installed:
 ```bash
 python scripts/check_release.py
 python scripts/check_supported_runtime_bundle.py
-python scripts/build_deploy_artifact.py
+python scripts/build_registry_artifact.py
+python scripts/build_adjudicator_artifact.py
 gltest --contracts-dir contracts tests
 ```
 
 `gltest --leader-only` is never a certification proof and is not used by the
 release checks. Bradbury deployment is deliberately a later gate after Direct
-Mode and full multi-validator testing pass.
+Mode and full multi-validator testing pass. Deploy the Program Registry first,
+then the Assessment Registry with its address, then the Evidence Registry with
+both registry addresses, and finally the Adjudicator with the Assessment
+Registry address. The Assessment Registry owner must bind the Evidence Registry
+and Adjudicator exactly once; each binding requires a reciprocal address check.
+No verdict or certificate authority is granted to the deployer by those wiring
+operations.
