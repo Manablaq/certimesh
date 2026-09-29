@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_CORRECTED_ASSESSMENT_1_ADJUDICATOR_CHILD_PENDING_FINALITY",
-  "recorded_at": "2026-09-29T16:36:36Z",
+  "status": "LIVE_CORRECTED_ASSESSMENT_2_CREATION_PENDING_FINALITY",
+  "recorded_at": "2026-09-29T19:35:00Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -322,7 +322,20 @@
       "registry_state_readback": "EVIDENCE_BOUND",
       "evidence_bound_readback": true,
       "next_action": "Wait for the patched Adjudicator child and Registry callback finality; finalize only if the callback records a provisional CERTIFIED decision."
+    },
+    "assessment_2_corrected_adjudicator": {
+      "assessment_id": 2,
+      "subject_id": "certimesh-release-36806f6-fixed-adjudicator-v2",
+      "subject_digest": "320f4fd7b60260f305f17ade813c0b106647c213c8b635a9950a517b62f85ef1",
+      "program_id": "certification",
+      "program_version": 2,
+      "assessment_deadline": 1790800000,
+      "create_transaction_id": "0x65187926849ae33adca93e11cf3a9d65801a13a1e87707d36f222e1a4591feab",
+      "create_execution_hash": "0x85f02e7c9f66968ed0f0ca5246ae60debd46733fa74c9461b12b22eae4018945",
+      "create_consensus_status": "ACCEPTED_WAITING_FOR_FINALITY",
+      "registry_state_readback": "REQUESTED",
+      "next_action": "Wait for creation finality, then attest primary and corroborating evidence, bind evidence, and dispatch assess(2)."
     }
   },
-  "remaining_live_path": "The corrected assessment 1 is evidence-bound and dispatched to the patched Adjudicator. Wait for child finality and the Registry callback, then finalize only after a provisional CERTIFIED decision and a closed challenge window."
+  "remaining_live_path": "Assessment 2 creation is accepted but not final. After finality, attest both pinned evidence records, bind them, dispatch the patched adjudicator, then finalize only after provisional CERTIFIED and a closed challenge window."
 }
