@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "SPLIT_DEPLOYMENT_PROGRAM_COMMITTED",
-  "recorded_at": "2026-09-27T15:09:23Z",
+  "status": "LIVE_ASSESSMENT_REPAIR_PENDING_AND_PROGRAM_V2_FINALITY",
+  "recorded_at": "2026-09-29T01:07:48Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -121,7 +121,107 @@
       "attempt": "plain JSON object arguments against the old string-only entrypoint",
       "result": "REVERTED_BEFORE_STATE_COMMIT",
       "reason": "The old method correctly rejected dict input as non-text; no program state was committed."
+    },
+    {
+      "attempt": "finalize assessment 1 after delayed cross-contract callback",
+      "result": "REVERTED_BEFORE_STATE_COMMIT",
+      "transaction_id": "0x864c38bd60443ad5a0d2dcda6bfc4c46bc0267a203c5a4e5cc0a8b3029e78ac2",
+      "reason": "The assessment deadline had passed before the Adjudicator callback completed; the registry correctly rejected finalization. Assessment 1 was then expired through its documented recovery path."
+    },
+    {
+      "attempt": "assess assessment 2 before evidence-bind finality",
+      "result": "REVERTED_BEFORE_STATE_COMMIT",
+      "evm_transaction_id": "0xc252b0f04b54c7dd05eb7afda12465cf33de5cca246509b50dcaa943e4408753",
+      "reason": "The bound snapshot was visible through readback, but the bind transaction had not finalized; the Registry rejected assessment dispatch and no assessment state changed."
+    },
+    {
+      "attempt": "assess assessment 2 with the internal Adjudicator argument shape",
+      "result": "REVERTED_BEFORE_STATE_COMMIT",
+      "transaction_id": "0xae3b88bd5322aac34e7d28c623f2531cb181f94385aca5db0839d91efebd6b1d",
+      "reason": "The public Assessment Registry assess method accepts only assessment_id; the failed call passed generation and evidence_set_hash as extra arguments. The execution trace reported a Python TypeError and the assessment remained unchanged."
     }
   ],
-  "remaining_live_path": "The split deployment, reciprocal wiring, and immutable program commitment are live. A complete assessment lifecycle still requires two authority accounts to attest independent approved HTTPS evidence, followed by evidence binding, assessment, challenge-window handling, and certificate readback on Bradbury."
+  "live_assessment": {
+    "assessment_1_expired_recovery": {
+      "assessment_id": 1,
+      "subject_id": "certimesh-demo-subject-2026-09-27",
+      "subject_digest": "68a69b35668363c510c758da644da16e323f89d2ba314110f37cde50311afaee",
+      "create_transaction_id": "0xb62415adf42ea7c636004ab0a6aa87801731c9231d31d76cdbe9df787086f7cb",
+      "assessment_transaction_id": "0xd25e4824c3ac102567f414a960f1cc08249e24925cac7bebe8f0acd1e9ac8eda",
+      "adjudicator_child_transaction_id": "0x5de32cbbe33c35a36a2d43b90795dcfa5a5f7cf19cb772fe16063ee027b72eb3",
+      "registry_callback_transaction_id": "0xfe67315d5fa74674c561655df57838c1a3a5e734d2917e2c1d3d6616b51cfa7a",
+      "adjudicator_decision": "CERTIFIED",
+      "provisional_state": "PROVISIONAL",
+      "finalization_transaction_id": "0x864c38bd60443ad5a0d2dcda6bfc4c46bc0267a203c5a4e5cc0a8b3029e78ac2",
+      "recovery_transaction_id": "0xb1a5f16515fd0f350f95a36ee6699c9295461edba13ee5106b424345bac8dfe8",
+      "terminal_state": "EXPIRED"
+    },
+    "assessment_2": {
+      "assessment_id": 2,
+      "subject_id": "certimesh-demo-subject-2026-09-28",
+      "subject_digest": "0c6f9e70ce4e8b80b98d3421562379a3b2c28dfc9e39586229ad8b7c2358eb9b",
+      "assessment_deadline": 1790755542,
+      "create_transaction_id": "0x5661b53b045906abc1ad79d628d6bd8a07a88041e14c020566d5b442d89ab6c4",
+      "create_execution_hash": "0x3723347451b06afb7cf450944267acee8f72ab779a754b168b51958f1fe418ee",
+      "create_consensus_status": "FINALIZED",
+      "primary_attestation": {
+        "role": 1,
+        "authority": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
+        "transaction_id": "0x30a465788480f5e3ab5826f77c3ea9ec8512b85491ae116cfc52a2be59768ac4",
+        "execution_hash": "0xd98fbacc1f18ff51429b2d66e6e4ad98a270e4f0ffdf8d7d5b0c66cb3d424926",
+        "consensus_status": "FINALIZED"
+      },
+      "corroborating_attestation": {
+        "role": 2,
+        "authority": "0x5bB49021001200fE8156a81c7fcF097e535e7181",
+        "transaction_id": "0x6cd6d6ebb1c22008702c92eb071dcae61172e9bbcad4725fca94a9d773299080",
+        "execution_hash": "0x0681d52b4a73a2181b24786eb3e141bcada1748d829eca7373a4c79082271b3f",
+        "consensus_status": "FINALIZED"
+      },
+      "evidence_bind": {
+        "transaction_id": "0x12dcf90969a80e21322dcfe34cc9ffb4b911197e4012b75714b8cec120ee4aad",
+        "execution_hash": "0x5157b912228db8ddaf310252cd15c342350544fe13b70b7581866c2d83c2eb06",
+        "consensus_status": "FINALIZED",
+        "execution_status": "FINISHED_WITH_RETURN",
+        "readback_bound": true,
+        "evidence_set_hash": "0de4d8455f8b370b5184f2d3cadc56741cc8a3a6fe0bb10dd29cf7c83a0ff205",
+        "generation": 1
+      },
+      "assessment_dispatch": {
+        "transaction_id": "0x334013e8bd6e7a17c5139665453d62707e511a018ebb58c39b9119f637e58a2d",
+        "execution_hash": "0xf4f0c89ed87a71ac8b7fb03e3da4e39abf2cd319a3a752089f58504df9ce2b29",
+        "consensus_status": "FINALIZED",
+        "execution_status": "FINISHED_WITH_RETURN",
+        "public_abi": "assess(assessment_id)",
+        "registry_state_after_finality": "EVIDENCE_BOUND"
+      },
+      "adjudicator_child": {
+        "transaction_id": "0x8f94ec60c6d20c2facda3f505aee92690efa4dd511060661d136c6e7ef03ef5f",
+        "consensus_status": "DECIDED_WAITING_FOR_FINALITY",
+        "trace_result_code": 0,
+        "result_status": "REPAIR",
+        "decision": "REPAIR",
+        "failure_code": "",
+        "observed_sha256": "",
+        "reason": "The committed version-1 criterion was too abstract for the evidence set; the adjudicator refused to certify and emitted a repair result."
+      },
+      "current_state": "EVIDENCE_BOUND",
+      "next_action": "Wait for the Adjudicator child and Registry callback finality. The existing assessment is expected to become REPAIR_REQUIRED; do not finalize it as a certificate."
+    },
+    "program_version_2": {
+      "program_id": "certification",
+      "version": 2,
+      "transaction_id": "0x0e1e648cd2fec50f3265c3e506a814563951484d50e41411ded4492c0f5495d3",
+      "execution_hash": "0x2837c2e6ec6e4629c409b0f3bb424c8a73eb25983816dc22d649f2fc8e10b103",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "criteria": {
+        "all": [
+          "The independently fetched README.md and SECURITY.md evidence documents match their committed SHA-256 hashes and together demonstrate the CertiMesh split architecture and security controls at source commit 36806f6."
+        ]
+      },
+      "next_action": "Wait for program version 2 finality, then create a fresh assessment against certification version 2 with a new subject digest."
+    }
+  },
+  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the outer dispatch is finalized and the Adjudicator child has decided REPAIR but still needs child/callback finality. Complete and record that repair path. Separately wait for certification version 2 finality, create a new assessment with the same two finalized evidence sources, bind them, assess through the one-argument Registry API, verify the Adjudicator decision, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read back the certificate and public proof pack."
 }
