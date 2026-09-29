@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_ASSESSMENT_3_REQUESTED_V2_AND_ASSESSMENT_2_REPAIR_CALLBACK_PENDING",
-  "recorded_at": "2026-09-29T02:18:00Z",
+  "status": "LIVE_ASSESSMENT_3_ATTESTATIONS_PENDING_FINALITY",
+  "recorded_at": "2026-09-29T02:24:00Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -234,6 +234,12 @@
       "create_consensus_status": "ACCEPTED",
       "create_execution_status": "FINISHED_WITH_RETURN",
       "registry_state_after_readback": "REQUESTED",
+      "primary_attestation_transaction_id": "0x43e8768c7bf3dcb7d9b6bf1fe3fde5af16b44401153dc6d936533588881d71e5",
+      "primary_attestation_execution_hash": "0x9eb826e12a791ed6a1e18e581f15d439a770779c50ce5fe2e13c5a6b8f3c1136",
+      "primary_attestation_consensus_status": "ACCEPTED",
+      "corroborating_attestation_transaction_id": "0x6f9b9cc35d9f5caeeb4a3992e1d1a90747cf1e2554296527f7430a60e95c1f8c",
+      "corroborating_attestation_execution_hash": "0x0dbdd6cbd6f404c691cf874d0c6ea23e46472d5404632de9ebea18884bfa9f7e",
+      "corroborating_attestation_consensus_status": "ACCEPTED",
       "evidence_records_ready_after_finality": [
         {
           "role": 1,
@@ -254,8 +260,8 @@
           "source_content_hash": "609af261ee22f221c2547c65cb1ab3fdc39c09bcde5baeb429942b02770391ca"
         }
       ],
-      "next_action": "Wait for creation finality; attest both pinned sources, bind, dispatch assess(3), and record the finalized adjudicator/callback outcomes."
+      "next_action": "Wait for both attestation transactions to finalize; then bind evidence as the requester, dispatch assess(3), and record the finalized adjudicator/callback outcomes."
     }
   },
-  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the Adjudicator child is finalized with a REPAIR result, but the Registry callback has not appeared in the event index. Assessment 3 is requested against finalized certification version 2 and is waiting only for creation finality; then attest the two pinned independent sources, bind, dispatch assess(3), verify the finalized decision and callback, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read back the certificate and public proof pack."
+  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the Adjudicator child is finalized with a REPAIR result, but the Registry callback has not appeared in the event index. Assessment 3 has finalized creation and accepted attestations for certification version 2; wait for both attestations to finalize, bind, dispatch assess(3), verify the finalized decision and callback, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read back the certificate and public proof pack."
 }
