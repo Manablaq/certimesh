@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_ASSESSMENT_3_ADJUDICATOR_CHILD_PENDING_FINALITY",
-  "recorded_at": "2026-09-29T02:42:00Z",
+  "status": "LIVE_CORRECTED_ASSESSMENT_1_ADJUDICATOR_CHILD_PENDING_FINALITY",
+  "recorded_at": "2026-09-29T16:36:36Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -83,6 +83,31 @@
         "bound_address": "0x7c52D0bA9A026a6fE6AD1604343bBaf0966e5520",
         "consensus_status": "ACCEPTED",
         "execution_status": "FINISHED_WITH_RETURN"
+      }
+    },
+    "corrected_redeployment": {
+      "reason": "Replace the live adjudicator after malformed model output caused the original split stack to produce an explorer execution error.",
+      "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
+      "assessment_registry": {
+        "transaction_id": "0x6b2d5fe2f3c5bf7108fd06667651a1dfcc55e030337863acab121d213e74c909",
+        "contract_address": "0x4A88E05f2C8F23bE8fF759EC980Caa2E34bD9F86",
+        "execution_status": "FINISHED_WITH_RETURN"
+      },
+      "evidence_registry": {
+        "transaction_id": "0x42e98ef78b0506e9ae82bf765c2da58434817dd05e1825b1c956049181e3e271",
+        "contract_address": "0xa6b339c9e1703994BC3523ABA1F7B31356266cB2",
+        "execution_status": "FINISHED_WITH_RETURN"
+      },
+      "adjudicator": {
+        "transaction_id": "0xcc2e87366708bd013bccff5b59a25fa2d20c315d85f329db92b0507c749fe5a3",
+        "contract_address": "0x0E41e4C48F4e234D9358455A61D701B23a696817",
+        "execution_status": "FINISHED_WITH_RETURN"
+      },
+      "bindings": {
+        "evidence_registry_transaction_id": "0x0f0b2fc63dba00e84117e0a5aa0f9c326946416fb94060a2ea4bf5ad2c4b7b92",
+        "adjudicator_transaction_id": "0x21fd4fbe051f26f1e8c93d567849486c898c5a5ee7145ab5da7aaaa7563c9d01",
+        "readback_adjudicator": "0x0e41e4c48f4e234d9358455a61d701b23a696817",
+        "readback_evidence_registry": "0xa6b339c9e1703994bc3523aba1f7b31356266cb2"
       }
     },
     "readback_verification": {
@@ -272,7 +297,32 @@
         }
       ],
       "next_action": "Wait for the Adjudicator child finality; then inspect its decision and Registry callback before any finalization action."
+    },
+    "assessment_1_corrected_adjudicator": {
+      "assessment_id": 1,
+      "subject_id": "certimesh-release-36806f6-fixed-adjudicator-v1",
+      "subject_digest": "864f845299ac29e90da6d308bfd6987f5235d743dbbbf98ee3edb3e55947057e",
+      "program_id": "certification",
+      "program_version": 2,
+      "assessment_deadline": 1790705000,
+      "create_transaction_id": "0xbd566587e1895634b1c316c1dad7e6811a10dffb5f52b084b994f9615fd2235a",
+      "create_execution_hash": "0x6978ca5e82329de2c48f1d0ee140f88f26f19baf4252c02d306e4d60e857692d",
+      "primary_attestation_transaction_id": "0x050b073012e63feea1bd9f2641876667b0793bfd8edd9c722e53c6a75101ca68",
+      "primary_attestation_authority": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
+      "corroborating_attestation_transaction_id": "0xf082604488c9d0a4da412f69c1b4a61f25e1eca79abb4ec6df06cf870525e3e0",
+      "corroborating_attestation_execution_hash": "0x6eef72bba1146f4faf5d99245edfd87ee66406526203a3f1f72f56d9f8b6cb2d",
+      "corroborating_attestation_authority": "0x5bB49021001200fE8156a81c7fcF097e535e7181",
+      "evidence_bind_transaction_id": "0x893aa3241a02c885cfcab977aac721700149ec6131f47a065562dce1d0650a40",
+      "evidence_bind_execution_hash": "0x70f98ce39719a095f32087fc95df7c6d60c5d6464587e27ee95b88044c65cff5",
+      "evidence_set_hash": "6ae2ff0f00c4cb08ea76f821c35e4b1ef6ef9b17a0fb5d4e511e8d0d7936ed86",
+      "assessment_dispatch_transaction_id": "0x89c3f1e650f8be2df4fabca04ea3464f1539df5dfb21730f127dc3c1158aabc7",
+      "assessment_dispatch_execution_hash": "0xf6786a09d50de5741b67ffc00b4281f02ffebb491db2739706d73a75e1082064",
+      "assessment_dispatch_public_abi": "assess(assessment_id)",
+      "adjudicator_address": "0x0E41e4C48F4e234D9358455A61D701B23a696817",
+      "registry_state_readback": "EVIDENCE_BOUND",
+      "evidence_bound_readback": true,
+      "next_action": "Wait for the patched Adjudicator child and Registry callback finality; finalize only if the callback records a provisional CERTIFIED decision."
     }
   },
-  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the Adjudicator child is finalized with a REPAIR result, but the Registry callback has not appeared in the event index. Assessment 3 has finalized creation, attestations, evidence bind, and assess(3) dispatch; its Adjudicator child is decided and waiting for finality. Then inspect the decision and Registry callback, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read the certificate and public proof pack."
+  "remaining_live_path": "The corrected assessment 1 is evidence-bound and dispatched to the patched Adjudicator. Wait for child finality and the Registry callback, then finalize only after a provisional CERTIFIED decision and a closed challenge window."
 }
