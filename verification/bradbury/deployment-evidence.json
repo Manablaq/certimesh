@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_ASSESSMENT_3_BIND_PENDING_FINALITY",
-  "recorded_at": "2026-09-29T02:30:00Z",
+  "status": "LIVE_ASSESSMENT_3_DISPATCH_PENDING_FINALITY",
+  "recorded_at": "2026-09-29T02:36:00Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -242,6 +242,13 @@
       "corroborating_attestation_consensus_status": "ACCEPTED",
       "evidence_bind_transaction_id": "0x10e55b8d1bf6ac7c68718bcaf687a13b99f30720124745cedd7bc318069acef3",
       "evidence_bind_consensus_status": "ACCEPTED",
+      "evidence_bind_execution_status": "FINISHED_WITH_RETURN",
+      "evidence_set_hash": "d46bb51d8d5420bc9e2f22de8b875ba7c6408596d94ec2599c0502a6050dff54",
+      "assessment_dispatch_transaction_id": "0x8674e9105d21fe2ada08bc34f75b3c342e69f62c550deaa5fbf1bf7ea6c1be8d",
+      "assessment_dispatch_execution_hash": "0x7b45d22fc3ba0b97c5a88da55d89815dcdda86b87ea8fa6254750954607d6035",
+      "assessment_dispatch_consensus_status": "ACCEPTED",
+      "assessment_dispatch_execution_status": "FINISHED_WITH_RETURN",
+      "assessment_dispatch_public_abi": "assess(assessment_id)",
       "evidence_records_ready_after_finality": [
         {
           "role": 1,
@@ -262,8 +269,8 @@
           "source_content_hash": "609af261ee22f221c2547c65cb1ab3fdc39c09bcde5baeb429942b02770391ca"
         }
       ],
-      "next_action": "Wait for the evidence-bind transaction to finalize; then dispatch assess(3) and record the finalized adjudicator/callback outcomes."
+      "next_action": "Wait for assess(3) dispatch finality; then inspect the Adjudicator child result and Registry callback before any finalization action."
     }
   },
-  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the Adjudicator child is finalized with a REPAIR result, but the Registry callback has not appeared in the event index. Assessment 3 has finalized creation, finalized attestations, and an accepted evidence bind; wait for bind finality, dispatch assess(3), verify the finalized decision and callback, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read back the certificate and public proof pack."
+  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the Adjudicator child is finalized with a REPAIR result, but the Registry callback has not appeared in the event index. Assessment 3 has finalized creation, finalized attestations, finalized evidence bind, and an accepted assess(3) dispatch; wait for dispatch finality, inspect the Adjudicator decision and Registry callback, then wait the challenge window and finalize only if PROVISIONAL CERTIFIED before reading the certificate and public proof pack."
 }
