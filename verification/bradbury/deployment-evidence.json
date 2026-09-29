@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_ASSESSMENT_REPAIR_PENDING_AND_PROGRAM_V2_FINALITY",
-  "recorded_at": "2026-09-29T01:07:48Z",
+  "status": "LIVE_ASSESSMENT_3_REQUESTED_V2_AND_ASSESSMENT_2_REPAIR_CALLBACK_PENDING",
+  "recorded_at": "2026-09-29T02:18:00Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -213,15 +213,49 @@
       "version": 2,
       "transaction_id": "0x0e1e648cd2fec50f3265c3e506a814563951484d50e41411ded4492c0f5495d3",
       "execution_hash": "0x2837c2e6ec6e4629c409b0f3bb424c8a73eb25983816dc22d649f2fc8e10b103",
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "execution_status": "FINISHED_WITH_RETURN",
       "criteria": {
         "all": [
           "The independently fetched README.md and SECURITY.md evidence documents match their committed SHA-256 hashes and together demonstrate the CertiMesh split architecture and security controls at source commit 36806f6."
         ]
       },
-      "next_action": "Wait for program version 2 finality, then create a fresh assessment against certification version 2 with a new subject digest."
+      "next_action": "Assessment 3 has been created against this finalized version; wait for creation finality before writing evidence."
+    },
+    "assessment_3_v2": {
+      "assessment_id": 3,
+      "subject_id": "certimesh-release-36806f6-v2",
+      "subject_digest": "84303f165800c74ab29b885c8d4b951b07439bb15805de2031e602a0914eabaf",
+      "program_id": "certification",
+      "program_version": 2,
+      "assessment_deadline": 1790800000,
+      "create_transaction_id": "0x54ebf8c703afb70f189a6fb07f32c6ba66349191f4f3e06e2845628fd00eb357",
+      "create_execution_hash": "0x32f6ba63b91bba8d7e5e2be5ed2a4841a4749163a65c45db6b1500c2a96565b0",
+      "create_consensus_status": "ACCEPTED",
+      "create_execution_status": "FINISHED_WITH_RETURN",
+      "registry_state_after_readback": "REQUESTED",
+      "evidence_records_ready_after_finality": [
+        {
+          "role": 1,
+          "authority": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
+          "evidence_record_id": "certimesh-readme-revision-v2",
+          "evidence_record_version": 1,
+          "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/36806f6/README.md",
+          "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/36806f6/README.md",
+          "source_content_hash": "fe3581e8c9f78762297af9b87bc03d5cf86a3423312f5fe32d090e9e1bd20bee"
+        },
+        {
+          "role": 2,
+          "authority": "0x5bB49021001200fE8156a81c7fcF097e535e7181",
+          "evidence_record_id": "certimesh-security-revision-v2",
+          "evidence_record_version": 1,
+          "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/36806f6/docs/SECURITY.md",
+          "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/36806f6/docs/SECURITY.md",
+          "source_content_hash": "609af261ee22f221c2547c65cb1ab3fdc39c09bcde5baeb429942b02770391ca"
+        }
+      ],
+      "next_action": "Wait for creation finality; attest both pinned sources, bind, dispatch assess(3), and record the finalized adjudicator/callback outcomes."
     }
   },
-  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the outer dispatch is finalized and the Adjudicator child has decided REPAIR but still needs child/callback finality. Complete and record that repair path. Separately wait for certification version 2 finality, create a new assessment with the same two finalized evidence sources, bind them, assess through the one-argument Registry API, verify the Adjudicator decision, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read back the certificate and public proof pack."
+  "remaining_live_path": "Assessment 2 is in a valid REPAIR path: the Adjudicator child is finalized with a REPAIR result, but the Registry callback has not appeared in the event index. Assessment 3 is requested against finalized certification version 2 and is waiting only for creation finality; then attest the two pinned independent sources, bind, dispatch assess(3), verify the finalized decision and callback, wait the challenge window, finalize only if PROVISIONAL CERTIFIED, and read back the certificate and public proof pack."
 }
