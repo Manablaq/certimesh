@@ -785,7 +785,19 @@ Return exactly one JSON object with only one key: {{"decision":"CERTIFIED"}},
 {{"decision":"REJECTED"}}, or {{"decision":"REPAIR"}}. Use REPAIR when
 evidence is unavailable, conflicting, or insufficient. Return no prose.
 """
-        decision = _normalize_decision(gl.nondet.exec_prompt(prompt, response_format="json"))
+        # Treat model output as untrusted input. Invalid shape or decision
+        # must produce a deterministic repair state, not a VM exception that
+        # causes validator disagreement and an UNDETERMINED assessment.
+        try:
+            decision = _normalize_decision(gl.nondet.exec_prompt(prompt, response_format="json"))
+        except Exception:
+            return {
+                "status": "REPAIR",
+                "decision": DECISION_REPAIR,
+                "failure_code": "MODEL_OUTPUT_INVALID",
+                "observed_sha256": "",
+                "evidence_set_hash": assessment_mem.evidence_set_hash,
+            }
         return {
             "status": "OK",
             "decision": decision,

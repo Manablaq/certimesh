@@ -303,7 +303,7 @@ def test_expired_assessment_cannot_produce_certificate(
         contract.expire_assessment(assessment_id)
 
 
-def test_malformed_model_output_reverts_closed_output_surface(
+def test_malformed_model_output_enters_repair_without_undetermined_revert(
     direct_vm, direct_deploy, direct_owner, direct_alice, direct_bob, direct_charlie
 ):
     direct_vm.warp(TEST_TIME_ISO)
@@ -316,5 +316,10 @@ def test_malformed_model_output_reverts_closed_output_surface(
         r"CERTIMESH_R1_ASSESSMENT_V1",
         json.dumps({"decision": "CERTIFIED", "confidence": 1}),
     )
-    with direct_vm.expect_revert("only decision"):
-        contract.assess(assessment_id)
+    direct_vm.sender = direct_charlie
+    contract.assess(assessment_id)
+    result = contract.get_assessment(assessment_id)
+    assert result.state == "REPAIR_REQUIRED"
+    assert result.provisional_decision == "REPAIR"
+    with direct_vm.expect_revert("Only provisional assessments can be finalized"):
+        contract.finalize_assessment(assessment_id)

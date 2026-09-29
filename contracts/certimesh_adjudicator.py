@@ -211,7 +211,13 @@ evidence is unavailable, conflicting, or insufficient. Return no prose.
 """
         if len(prompt.encode("utf-8")) > MAX_PROMPT_BYTES:
             return self._repair(context, "REVIEW_PROMPT_TOO_LARGE")
-        decision = _normalize_decision(gl.nondet.exec_prompt(prompt, response_format="json"))
+        # A model response is untrusted input. Never let malformed output
+        # escape as a VM exception: that turns a recoverable review into an
+        # UNDETERMINED assessment when validators cannot agree.
+        try:
+            decision = _normalize_decision(gl.nondet.exec_prompt(prompt, response_format="json"))
+        except Exception:
+            return self._repair(context, "MODEL_OUTPUT_INVALID")
         return {
             "assessment_id": int(assessment["assessment_id"]),
             "generation": int(assessment["generation"]),
