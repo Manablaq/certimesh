@@ -141,7 +141,7 @@
     }
   },
   "active_split_architecture": {
-    "status": "BINDING_PENDING_FINALIZATION",
+    "status": "ADJUDICATOR_BINDING_PENDING_FINALIZATION",
     "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
     "assessment_registry": {
       "artifact": "contracts/certimesh_registry_deploy.py",
@@ -181,11 +181,27 @@
         "evm_wrapper_gas_limit": 2000000,
         "evm_wrapper_gas_used": 840654,
         "transaction_id": "0xbc26e0493ca61c13dd883c3d7e4ec2f12c2b67d4ee49e834ea6165c77e4363ff",
+        "consensus_status": "FINALIZED",
+        "execution_status": "FINISHED_WITH_RETURN"
+      },
+      {
+        "method": "bind_adjudicator",
+        "contract_address": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7",
+        "bound_address": "0xA886Da7226Af8239A9187FeA541F0f769c8f2b69",
+        "evm_wrapper_transaction_id": "0xc9b9bbd79dee79e6a20cea5d50fd18ca93bab71a0e8a81c5c3eaa9208a47bbe5",
+        "evm_wrapper_status": "SUCCESS",
+        "evm_wrapper_gas_limit": 2000000,
+        "evm_wrapper_gas_used": 863317,
+        "transaction_id": "0x3ddeb5d8621ce6c0af63575e3bda0d0dc2cb5a9711ebd8c3dff7d90d848b0864",
         "consensus_status": "ACCEPTED",
-        "execution_status": "PENDING_FINALIZATION"
+        "execution_status": "FINISHED_WITH_RETURN"
       }
     ],
-    "readback_verification": "BLOCKED_UNTIL_EVIDENCE_BIND_FINALIZES"
+    "readback_verification": {
+      "evidence_registry": "0xebec3e05e62533d755c6868f297d82376d2133a5",
+      "adjudicator": "0x0000000000000000000000000000000000000000",
+      "adjudicator_readback": "BLOCKED_UNTIL_ADJUDICATOR_BIND_FINALIZES"
+    }
   },
   "negative_evidence": [
     {
