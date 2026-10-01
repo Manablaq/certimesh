@@ -494,7 +494,7 @@
       "record_id": "primary-readme-36806f6",
       "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/36806f6/README.md",
       "sha256": "fe3581e8c9f78762297af9b87bc03d5cf86a3423312f5fe32d090e9e1bd20bee",
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "execution_status": "FINISHED_WITH_RETURN"
     },
     "corroborating_attestation": {
@@ -503,10 +503,16 @@
       "record_id": "corroborating-security-36806f6",
       "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/36806f6/docs/SECURITY.md",
       "sha256": "609af261ee22f221c2547c65cb1ab3fdc39c09bcde5baeb429942b02770391ca",
+      "consensus_status": "FINALIZED",
+      "execution_status": "FINISHED_WITH_RETURN"
+    },
+    "evidence_bind": {
+      "transaction_id": "0x41eb412dacb43c64055f969598774f16f92ee78abe1f5405f81d4930389cf0ef",
+      "assessment_id": 1,
       "consensus_status": "ACCEPTED",
       "execution_status": "FINISHED_WITH_RETURN"
     },
-    "next_action": "Wait for both evidence attestations to finalize, then bind evidence, dispatch assessment, and record the finalized adjudicator outcome."
+    "next_action": "Wait for evidence bind finality, then verify the bound snapshot before dispatching assessment 1."
   },
-  "remaining_live_path": "Assessment 1 on the active split stack is requested but its create transaction is not finalized. Wait for create finality before attestation."
+  "remaining_live_path": "Assessment 1 create and both evidence attestations are finalized. Evidence bind is accepted and awaiting finality; do not dispatch assessment until the bound snapshot is confirmed."
 }
