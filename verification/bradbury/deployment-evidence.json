@@ -485,10 +485,28 @@
     "program_version": 2,
     "assessment_deadline": 1791049661,
     "create_transaction_id": "0x5ec6845f8e8c301b62821cc1395e1bcdadb79d5387bbdd9ab5ada4f9ebd857d1",
-    "create_consensus_status": "ACCEPTED",
+    "create_consensus_status": "FINALIZED",
     "create_execution_status": "FINISHED_WITH_RETURN",
     "registry_state_readback": "REQUESTED",
-    "next_action": "Wait for create finality, then attest the two pinned HTTPS evidence documents, bind evidence, dispatch assessment, and record the finalized adjudicator outcome."
+    "primary_attestation": {
+      "transaction_id": "0x98835544aea9a9330a3f1ed10f4aa1b412f935365e4b0d8557fba5a6814d77a0",
+      "authority": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
+      "record_id": "primary-readme-36806f6",
+      "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/36806f6/README.md",
+      "sha256": "fe3581e8c9f78762297af9b87bc03d5cf86a3423312f5fe32d090e9e1bd20bee",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN"
+    },
+    "corroborating_attestation": {
+      "transaction_id": "0x706972370d0af3bb99746dec40989c02da0459cc8d20ec566e9b79de0513880d",
+      "authority": "0x5bB49021001200fE8156a81c7fcF097e535e7181",
+      "record_id": "corroborating-security-36806f6",
+      "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/36806f6/docs/SECURITY.md",
+      "sha256": "609af261ee22f221c2547c65cb1ab3fdc39c09bcde5baeb429942b02770391ca",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN"
+    },
+    "next_action": "Wait for both evidence attestations to finalize, then bind evidence, dispatch assessment, and record the finalized adjudicator outcome."
   },
   "remaining_live_path": "Assessment 1 on the active split stack is requested but its create transaction is not finalized. Wait for create finality before attestation."
 }
