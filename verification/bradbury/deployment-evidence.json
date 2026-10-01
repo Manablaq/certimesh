@@ -1,7 +1,7 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_CORRECTED_ASSESSMENT_2_PROVISIONAL_EXPIRED_REPLACEMENT_RPC_BLOCKED",
-  "recorded_at": "2026-10-01T07:49:29Z",
+  "status": "LIVE_CORRECTED_ASSESSMENT_3_EVIDENCE_BOUND_CHILD_PENDING",
+  "recorded_at": "2026-10-01T12:16:49Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -359,7 +359,36 @@
         "next_action": "Retry assessment 3 creation only after the Bradbury sequencer is healthy; do not retry assessment 2 finalization."
       },
       "next_action": "Assessment 2 cannot be finalized because its assessment deadline passed; create a fresh assessment with a new subject digest after RPC recovery."
+    },
+    "assessment_3_current_rerun": {
+      "assessment_id": 3,
+      "subject_id": "certimesh-release-36806f6-fixed-adjudicator-v2-rerun-20261001",
+      "subject_digest": "f6059ba81cf3555a54b7bc51cbe6d4eae47ed3402165e708b709e0d221b0e744",
+      "program_id": "certification",
+      "program_version": 2,
+      "assessment_deadline": 1791000000,
+      "create_transaction_id": "0x79117907d89fd1700fb10aa1fe770a3688ced88a17250a881e21838313dc4413",
+      "create_execution_hash": "0x79736bb6e02a6e3c8bf1a0542dc95160416942671c925c1c9b04c64201f81cea",
+      "create_consensus_status": "FINALIZED",
+      "primary_attestation_transaction_id": "0x11923d1f676aa782c006eb35864ebf9d218cc3de6b9601bc7f5e65210aa52d01",
+      "primary_attestation_execution_hash": "0x547865b3eabbdc3819e85834901c3d9539e00976003af6d767d74dc13ad6cc08",
+      "primary_attestation_consensus_status": "FINALIZED",
+      "corroborating_attestation_transaction_id": "0x86a9dcb09f73cb313e5c6952ec2858618caedb5f7da4e16c274090df6ec35c6a",
+      "corroborating_attestation_execution_hash": "0x6a204d45fb113889d8f42a7ee38c3e08c3291599bf6c85cf640e1387cc7aa16a",
+      "corroborating_attestation_consensus_status": "FINALIZED",
+      "evidence_bind_transaction_id": "0xcaa658e1968b9f496c9053f1e0b387175dcfd4358bfc3c139326d7584b98a1f4",
+      "evidence_bind_execution_hash": "0x7495a51e56502d9afc121fe7f94e8578d54cb26adf2b6376c7505fc59ee713e3",
+      "evidence_bind_consensus_status": "FINALIZED",
+      "evidence_set_hash": "eee1e2266174dad43ddef3613fbc8c8fb9ae6e07eb4dec15a734c37e1b800e2e",
+      "generation": 1,
+      "assessment_dispatch_transaction_id": "0x92726583a223bcb6606882a67e2fa26b2e0672dd45d6db62ae0bb19fbb6a34c7",
+      "assessment_dispatch_execution_hash": "0xf4c3d5cf047ff5cb1d217c0862929a80a4bcdcdd8b7abfd80976bc09658fce3a",
+      "assessment_dispatch_consensus_status": "FINALIZED",
+      "assessment_dispatch_execution_status": "FINISHED_WITH_RETURN",
+      "adjudicator_address": "0x0E41e4C48F4e234D9358455A61D701B23a696817",
+      "registry_state_readback": "EVIDENCE_BOUND",
+      "next_action": "Wait for the patched Adjudicator child consensus and Registry callback; finalize only after provisional CERTIFIED and a closed challenge window."
     }
   },
-  "remaining_live_path": "Assessment 2 reached provisional CERTIFIED but is no longer finalizable because its assessment deadline passed. Assessment 3 was not created because Bradbury write submission failed before state change; after sequencer recovery, create assessment 3 with a fresh subject digest and future deadline, refresh both evidence attestations, bind, assess, then finalize before that new assessment deadline after its challenge window closes."
+  "remaining_live_path": "Assessment 3 is evidence-bound and its adjudication dispatch is finalized. Wait for the patched Adjudicator child and Registry callback, then finalize before assessment deadline 1791000000 after the one-hour challenge window closes."
 }
