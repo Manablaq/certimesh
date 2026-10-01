@@ -141,7 +141,7 @@
     }
   },
   "active_split_architecture": {
-    "status": "PENDING_FINALIZATION",
+    "status": "BINDING_PENDING_FINALIZATION",
     "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
     "assessment_registry": {
       "artifact": "contracts/certimesh_registry_deploy.py",
@@ -149,7 +149,7 @@
       "transaction_id": "0x2d62082353df86e310ee6cc7a3ae27195378506c95b80fd77c3490e8f3377a9c",
       "contract_address": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7",
       "execution_status": "FINISHED_WITH_RETURN",
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "constructor_program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2"
     },
     "evidence_registry": {
@@ -158,7 +158,7 @@
       "transaction_id": "0x98f4e7e37f50d56c9251a446553825fe2033a808556c04ef7147b3940be51234",
       "contract_address": "0xebEC3e05e62533d755c6868f297d82376D2133a5",
       "execution_status": "FINISHED_WITH_RETURN",
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "constructor_assessment_registry": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7",
       "constructor_program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2"
     },
@@ -168,11 +168,24 @@
       "transaction_id": "0x6bdef24b5b0d57bb3363a6888e793056d718a733d6a1d8a407fba7ad34e0def7",
       "contract_address": "0xA886Da7226Af8239A9187FeA541F0f769c8f2b69",
       "execution_status": "FINISHED_WITH_RETURN",
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "constructor_assessment_registry": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7"
     },
-    "binding_transactions": [],
-    "readback_verification": "BLOCKED_UNTIL_ALL_THREE_DEPLOYMENTS_FINALIZE"
+    "binding_transactions": [
+      {
+        "method": "bind_evidence_registry",
+        "contract_address": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7",
+        "bound_address": "0xebEC3e05e62533d755c6868f297d82376D2133a5",
+        "evm_wrapper_transaction_id": "0x2f6449563763b7852b44b013d012c1b98c174f3b006d9722452902fbc0cf053c",
+        "evm_wrapper_status": "SUCCESS",
+        "evm_wrapper_gas_limit": 2000000,
+        "evm_wrapper_gas_used": 840654,
+        "transaction_id": "0xbc26e0493ca61c13dd883c3d7e4ec2f12c2b67d4ee49e834ea6165c77e4363ff",
+        "consensus_status": "ACCEPTED",
+        "execution_status": "PENDING_FINALIZATION"
+      }
+    ],
+    "readback_verification": "BLOCKED_UNTIL_EVIDENCE_BIND_FINALIZES"
   },
   "negative_evidence": [
     {
@@ -213,6 +226,14 @@
       "result": "REVERTED_BEFORE_STATE_COMMIT",
       "transaction_id": "0xae3b88bd5322aac34e7d28c623f2531cb181f94385aca5db0839d91efebd6b1d",
       "reason": "The public Assessment Registry assess method accepts only assessment_id; the failed call passed generation and evidence_set_hash as extra arguments. The execution trace reported a Python TypeError and the assessment remained unchanged."
+    },
+    {
+      "attempt": "bind_evidence_registry with the CLI-generated wrapper gas limit",
+      "result": "EVM_WRAPPER_REVERTED_BEFORE_CONSENSUS",
+      "evm_transaction_id": "0xe4c0c48c30926b51bdc9c88f2dd688a439338d6e68bd8ebfbe999554fd46971f",
+      "gas_limit": 889985,
+      "gas_estimate_at_replay": 896891,
+      "reason": "The wrapper consumed nearly its gas limit and emitted no NewTransaction event. The exact calldata was preserved and resubmitted once with a 2000000 gas ceiling; the replacement wrapper succeeded and emitted the tracked consensus transaction."
     }
   ],
   "live_assessment": {

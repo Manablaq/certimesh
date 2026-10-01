@@ -82,3 +82,13 @@ transactions in parallel. The CLI success banner is not release evidence:
 accept a deployment only after the RPC receipt reports `FINALIZED` and
 `FINISHED_WITH_RETURN`; reject `FINISHED_WITH_ERROR` even when consensus says
 `ACCEPTED`.
+
+For Bradbury state-changing writes, also verify the EVM wrapper receipt before
+waiting on GenLayer consensus. The CLI can under-estimate the wrapper gas for a
+write and produce a reverted EVM transaction with no GenLayer transaction at
+all. If the wrapper receipt is `status: 0x0` and contains no `NewTransaction`
+event, do not submit a new logical action: preserve the original calldata,
+nonce, and target, then resend that same calldata sequentially with an explicit
+gas ceiling above the current `eth_estimateGas` result. Only the emitted
+`NewTransaction` id may then be tracked toward `FINALIZED` and
+`FINISHED_WITH_RETURN`.

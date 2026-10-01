@@ -20,6 +20,15 @@ Git commit. `ACCEPTED` alone is not proof; require `FINALIZED` and
 Never use `--leader-only` as proof. If a live write returns a transaction id,
 poll it instead of resubmitting.
 
+There are two receipts to verify for a write. First verify the EVM wrapper
+receipt: it must be successful and emit `NewTransaction`. A reverted wrapper
+(`status: 0x0`) is not a GenLayer transaction and must not trigger a second
+logical action. On Bradbury, the CLI may under-estimate wrapper gas; preserve
+the exact calldata and resend it once, sequentially, with an explicit gas
+ceiling above the current `eth_estimateGas` result. Then track only the
+`NewTransaction` id and require its final receipt to be `FINALIZED` with
+`FINISHED_WITH_RETURN`.
+
 ## Current release record
 
 The deployment record in
