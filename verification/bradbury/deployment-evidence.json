@@ -1,6 +1,6 @@
 {
   "schema": "certimesh-bradbury-deployment-evidence-v3",
-  "status": "NEW_SPLIT_DEPLOYMENT_PENDING_FINALIZATION",
+  "status": "ACTIVE_SPLIT_DEPLOYMENT",
   "recorded_at": "2026-10-01T13:00:00Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
@@ -141,7 +141,7 @@
     }
   },
   "active_split_architecture": {
-    "status": "ADJUDICATOR_BINDING_PENDING_FINALIZATION",
+    "status": "ACTIVE_WIRED",
     "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
     "assessment_registry": {
       "artifact": "contracts/certimesh_registry_deploy.py",
@@ -193,14 +193,15 @@
         "evm_wrapper_gas_limit": 2000000,
         "evm_wrapper_gas_used": 863317,
         "transaction_id": "0x3ddeb5d8621ce6c0af63575e3bda0d0dc2cb5a9711ebd8c3dff7d90d848b0864",
-        "consensus_status": "ACCEPTED",
+        "consensus_status": "FINALIZED",
         "execution_status": "FINISHED_WITH_RETURN"
       }
     ],
     "readback_verification": {
       "evidence_registry": "0xebec3e05e62533d755c6868f297d82376d2133a5",
-      "adjudicator": "0x0000000000000000000000000000000000000000",
-      "adjudicator_readback": "BLOCKED_UNTIL_ADJUDICATOR_BIND_FINALIZES"
+      "adjudicator": "0xa886da7226af8239a9187fea541f0f769c8f2b69",
+      "adjudicator_readback": "VERIFIED",
+      "adjudicator_registry_readback": "0x24f92ca9c42cc3e093ce6a1d0f2b9a2b474d66a7"
     }
   },
   "negative_evidence": [
@@ -476,5 +477,18 @@
       "next_action": "Wait for the patched Adjudicator child consensus and Registry callback; finalize only after provisional CERTIFIED and a closed challenge window."
     }
   },
-  "remaining_live_path": "Assessment 3 is evidence-bound and its adjudication dispatch is finalized. Wait for the patched Adjudicator child and Registry callback, then finalize before assessment deadline 1791000000 after the one-hour challenge window closes."
+  "active_live_assessment": {
+    "assessment_id": 1,
+    "subject_id": "certimesh-active-split-20261001",
+    "subject_digest": "edea4830e3b8054144309d679d278f70280cd37191f1b666ee2f5234859e4b5b",
+    "program_id": "certification",
+    "program_version": 2,
+    "assessment_deadline": 1791049661,
+    "create_transaction_id": "0x5ec6845f8e8c301b62821cc1395e1bcdadb79d5387bbdd9ab5ada4f9ebd857d1",
+    "create_consensus_status": "ACCEPTED",
+    "create_execution_status": "FINISHED_WITH_RETURN",
+    "registry_state_readback": "REQUESTED",
+    "next_action": "Wait for create finality, then attest the two pinned HTTPS evidence documents, bind evidence, dispatch assessment, and record the finalized adjudicator outcome."
+  },
+  "remaining_live_path": "Assessment 1 on the active split stack is requested but its create transaction is not finalized. Wait for create finality before attestation."
 }
