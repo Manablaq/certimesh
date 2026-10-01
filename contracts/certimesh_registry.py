@@ -146,6 +146,21 @@ class CertiMeshRegistry(gl.Contract):
         if _key(self.adjudicator_address)==_key(ZERO_ADDRESS):_fail("Adjudicator is not bound")
         a.evidence_set_hash=evidence_set_hash; a.state=EVIDENCE_BOUND
         cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on="finalized").assess(assessment_id,a.generation,evidence_set_hash)
+    @gl.public.write
+    def retry_assessment(self,assessment_id:u256)->None:
+        """Re-dispatch the exact bound review after an adjudicator failure.
+
+        This is deliberately not a new assessment generation: the requester,
+        evidence-set hash, and generation remain immutable.  A late callback
+        from an earlier dispatch is still accepted only while the assessment
+        is EVIDENCE_BOUND and must match those same exact values.
+        """
+        a=self._assessment(assessment_id)
+        if _key(gl.message.sender_address)!=_key(a.requester):_fail("Only the assessment requester can retry")
+        if a.state!=EVIDENCE_BOUND:_fail("Only evidence-bound assessments can be retried")
+        if _key(self.adjudicator_address)==_key(ZERO_ADDRESS):_fail("Adjudicator is not bound")
+        if int(_now())>=int(a.assessment_deadline):_fail("Assessment deadline has passed")
+        cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on="finalized").assess(assessment_id,a.generation,a.evidence_set_hash)
     @gl.public.view
     def get_review_context(self,assessment_id:u256)->str:
         a=self._assessment(assessment_id); p=self._program(a.program_id,a.program_version)

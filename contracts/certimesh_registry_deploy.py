@@ -136,6 +136,14 @@ class CertiMeshRegistry(gl.Contract):
 		if not G14(b):G17('Evidence binding is invalid')
 		if G20(self.adjudicator_address)==G20(G4):G17('Adjudicator is not bound')
 		e.evidence_set_hash=b;e.state=G2;cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on='finalized').assess(assessment_id,e.generation,b)
+	@gl.public.write
+	def retry_assessment(self,assessment_id:u256)->None:
+		b=self.m1(assessment_id)
+		if G20(gl.message.sender_address)!=G20(b.requester):G17('Only the assessment requester can retry')
+		if b.state!=G2:G17('Only evidence-bound assessments can be retried')
+		if G20(self.adjudicator_address)==G20(G4):G17('Adjudicator is not bound')
+		if int(G21())>=int(b.assessment_deadline):G17('Assessment deadline has passed')
+		cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on='finalized').assess(assessment_id,b.generation,b.evidence_set_hash)
 	@gl.public.view
 	def get_review_context(self,assessment_id:u256)->str:
 		c=self.m1(assessment_id);d=self.m2(c.program_id,c.program_version)

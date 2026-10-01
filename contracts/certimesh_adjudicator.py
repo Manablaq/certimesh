@@ -133,6 +133,50 @@ class CertiMeshAdjudicator(gl.Contract):
             str(result.get("observed_sha256", "")),
         )
 
+    def _validate_result(self, context: dict, result: dict) -> dict:
+        """Validate the equivalence-principle output before any callback."""
+        if not isinstance(result, dict):
+            _fail("Adjudication result is not an object")
+        expected_keys = {
+            "assessment_id",
+            "generation",
+            "evidence_set_hash",
+            "result_status",
+            "decision",
+            "failure_code",
+            "observed_sha256",
+        }
+        if set(result.keys()) != expected_keys:
+            _fail("Adjudication result shape is invalid")
+        assessment = context["assessment"]
+        if (
+            int(result["assessment_id"]) != int(assessment["assessment_id"])
+            or int(result["generation"]) != int(assessment["generation"])
+            or result["evidence_set_hash"] != assessment["evidence_set_hash"]
+        ):
+            _fail("Adjudication result does not match the bound request")
+        if result["decision"] not in (DECISION_CERTIFIED, DECISION_REJECTED, DECISION_REPAIR):
+            _fail("Unsupported adjudication decision")
+        if result["result_status"] == "OK" and result["decision"] not in (DECISION_CERTIFIED, DECISION_REJECTED):
+            _fail("OK result has an unsupported decision")
+        if result["result_status"] == "REPAIR" and result["decision"] != DECISION_REPAIR:
+            _fail("Repair result has an unsupported decision")
+        if result["result_status"] not in ("OK", "REPAIR"):
+            _fail("Unsupported adjudication result status")
+        failure_code = result["failure_code"]
+        observed_sha256 = result["observed_sha256"]
+        if not isinstance(failure_code, str) or not isinstance(observed_sha256, str):
+            _fail("Adjudication result metadata is invalid")
+        if result["result_status"] == "OK":
+            if failure_code or observed_sha256:
+                _fail("OK adjudication results cannot carry repair metadata")
+        else:
+            if not failure_code.strip():
+                _fail("Repair adjudication results require a failure code")
+            if observed_sha256 and not _hex64(observed_sha256):
+                _fail("Observed evidence hash must be lowercase hexadecimal")
+        return result
+
     def _repair(self, context: dict, code: str, observed_sha256: str = "") -> dict:
         assessment = context["assessment"]
         return {
@@ -250,24 +294,29 @@ evidence is unavailable, conflicting, or insufficient. Return no prose.
         # cannot observe mutable contract state through the callback path.
         context_for_review = dict(context)
 
-        def evaluate_once() -> dict:
-            return self._evaluate_context(context_for_review)
+        def evaluate_once() -> str:
+            return _canonical_json(self._evaluate_context(context_for_review))
 
-        def validator_fn(leader_result) -> bool:
-            if not isinstance(leader_result, gl.vm.Return):
-                return False
-            try:
-                leader_data = leader_result.calldata
-                validator_data = evaluate_once()
-                if not isinstance(leader_data, dict):
-                    return False
-                fields = ("result_status", "decision", "failure_code", "observed_sha256", "evidence_set_hash")
-                return all(leader_data.get(field) == validator_data.get(field) for field in fields)
-            except Exception:
-                return False
-
-        result = gl.vm.run_nondet_unsafe(evaluate_once, validator_fn)
-        if not isinstance(result, dict):
-            _fail("Unsupported adjudication result")
+        result_raw = gl.eq_principle.prompt_non_comparative(
+            evaluate_once,
+            task=(
+                "Validate a CertiMesh adjudicator result represented as canonical JSON. "
+                "Return the exact same JSON object and values. Do not add, remove, "
+                "normalize, or reinterpret any field. Return no prose."
+            ),
+            criteria=(
+                "Accept only a valid JSON object with exactly these fields: "
+                "assessment_id, generation, evidence_set_hash, result_status, decision, "
+                "failure_code, observed_sha256. Every field value must be preserved "
+                "exactly from the input. result_status must be OK or REPAIR; decision "
+                "must be CERTIFIED, REJECTED, or REPAIR; OK pairs only with CERTIFIED "
+                "or REJECTED and REPAIR pairs only with REPAIR."
+            ),
+        )
+        try:
+            result = json.loads(result_raw) if isinstance(result_raw, str) else result_raw
+        except Exception:
+            _fail("Adjudication result is not valid JSON")
+        result = self._validate_result(context_for_review, result)
         self.request_results[key] = _canonical_json(result)
         self._emit_result(result)

@@ -21,6 +21,9 @@
 - The Registry/Adjudicator binding is reciprocal and write-once; the Registry
   callback checks the sender, generation, evidence-set digest, and allowed
   result shape before mutating state.
+- A failed adjudicator dispatch can only be retried by the assessment requester
+  while the state remains `EVIDENCE_BOUND`; retry reuses the exact bound
+  generation and evidence-set hash and cannot inject a new verdict.
 - The Registry contains no nondeterministic evaluator, and the Adjudicator has
   no public state-transition methods besides the Registry-authenticated review.
 - Evidence is untrusted prompt data; it is never treated as protocol instructions.
@@ -37,5 +40,6 @@ validator disagreement.
 ## Operational rule
 
 Every live write must save its transaction id immediately and poll that exact
-id until `FINALIZED` with successful execution. A timeout after an id exists is
-not permission to blindly retry.
+id until `FINALIZED` with successful execution. The frontend must not expose
+adjudicator retry until the exact child dispatch is finalized as failed, and a
+timeout after an id exists is not permission to blindly retry.

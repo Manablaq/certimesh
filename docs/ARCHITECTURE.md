@@ -41,6 +41,12 @@ REQUESTED -> EVIDENCE_BOUND -> PROVISIONAL -> FINAL
 `EXPIRED` is terminal. Only `PROVISIONAL` can enter `FINAL`, and only after its
 challenge deadline has passed without a challenge.
 
+An adjudicator dispatch can be re-emitted as `EVIDENCE_BOUND -> EVIDENCE_BOUND`
+through the requester-only `retry_assessment` recovery method. This preserves
+the original evidence binding and generation; it is not a new review or a
+verdict override. A callback can advance the state only from the same exact
+bound generation and evidence-set hash.
+
 ## Evidence binding
 
 The Evidence Registry is the only write surface for evidence. Each assessment
@@ -55,8 +61,11 @@ in the certificate digest.
 
 The nondeterministic function has no storage writes. The Adjudicator fetches both committed
 sources, checks status/size/UTF-8/payload-and-content hashes, frames the bytes inside
-`UNTRUSTED_EVIDENCE`, and asks for exactly one JSON decision key. The validator
-repeats the whole fetch/evaluation and compares status, decision, failure code,
-observed hash, and evidence-set hash. A disagreement rejects the transaction.
+`UNTRUSTED_EVIDENCE`, and asks for exactly one JSON decision key. Subjective
+review uses GenLayer's non-comparative equivalence principle with strict
+format and metadata validation; validators independently verify the committed
+review output rather than requiring byte-for-byte model phrasing. A disagreement
+or malformed result produces no callback and is recoverable through the exact
+bound-request retry path.
 The Registry callback accepts only the bound Adjudicator, the exact assessment
 generation, and the exact evidence-set digest.

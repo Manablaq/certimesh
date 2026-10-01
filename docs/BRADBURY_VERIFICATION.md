@@ -22,11 +22,15 @@ poll it instead of resubmitting.
 
 ## Current release record
 
-The current frozen source and compact transport artifact pass the local release
-gates, Direct Mode, and GenVM validation. Bradbury read-only gas estimation
-accepts the payload, but the GenLayer CLI deployment request is rejected before
-consensus acceptance with `gas limit too high`. Therefore this repository does
-not claim a deployed CertiMesh address or positive on-chain contract evidence.
-The exact source/artifact hashes, RPC estimate, rejected request hash, and
-negative evidence status are recorded in
-[`verification/bradbury/deployment-evidence.json`](../verification/bradbury/deployment-evidence.json).
+The deployment record in
+[`verification/bradbury/deployment-evidence.json`](../verification/bradbury/deployment-evidence.json)
+is the source of truth. It must contain the active split-stack addresses and
+only receipts that are both `FINALIZED` and `FINISHED_WITH_RETURN`. A CLI
+success banner, an `ACCEPTED` transaction, or a trace with an execution error
+is not sufficient evidence and must remain recorded as negative evidence.
+
+The active deployment is intentionally recorded only after the sequential
+deployment, reciprocal bindings, readback, and a fresh end-to-end assessment
+have all been finalized. The external VerdictGraph UI is not part of this
+repository; this repository contains the protocol contracts, artifacts, tests,
+and release evidence only.

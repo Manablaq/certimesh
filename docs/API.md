@@ -19,6 +19,7 @@ get_latest_program_version(program_id)
 create_assessment(program_id, version, subject_id, subject_digest,
   assessment_deadline) -> assessment_id
 assess(assessment_id)
+retry_assessment(assessment_id)        # requester-only, same bound evidence/generation
 challenge_assessment(assessment_id, challenge_material)
 open_repair_generation(assessment_id) -> generation
 finalize_assessment(assessment_id)
@@ -31,6 +32,15 @@ record_assessment_result(...)          # adjudicator-only finalized callback
 `assess` on the Registry starts the Adjudicator request. It does not accept a
 client-supplied decision. `record_assessment_result` is an internal callback
 surface and rejects every sender except the reciprocally bound Adjudicator.
+
+`retry_assessment` is the recovery path for a finalized adjudicator dispatch
+that ends in `NONDET_DISAGREE`, delivery failure, or another pre-callback
+failure. It is requester-only and callable only while the assessment is
+`EVIDENCE_BOUND`. It re-dispatches the exact same assessment id, generation,
+and evidence-set hash; it cannot replace evidence, change the program, or
+advance a verdict. The UI must enable it only after the failed child
+transaction has been finalized, and must correlate the exact parent and
+adjudicator child transactions before offering it.
 
 ### Adjudicator (`CertiMeshAdjudicator`)
 

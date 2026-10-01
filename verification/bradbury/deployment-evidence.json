@@ -1,20 +1,22 @@
 {
-  "schema": "certimesh-bradbury-deployment-evidence-v2",
-  "status": "LIVE_CORRECTED_ASSESSMENT_3_EVIDENCE_BOUND_CHILD_PENDING",
-  "recorded_at": "2026-10-01T12:16:49Z",
+  "schema": "certimesh-bradbury-deployment-evidence-v3",
+  "status": "NEW_SPLIT_DEPLOYMENT_PENDING_FINALIZATION",
+  "recorded_at": "2026-10-01T13:00:00Z",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
   "consensus_contract": "0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D",
   "deployer": "0x1f87Ae197af539253978d435aD45cCf28Fb95024",
-  "canonical_source": {
-    "path": "contracts/certimesh_core.py",
-    "sha256": "ab9614a2b4a7093b50bf8112fba0296272cef91563fb37f6fa6a94011ba52771"
-  },
+  "canonical_sources": [
+    {"path": "contracts/certimesh_program_registry.py", "sha256": "457ed20764accf6a0d5ebae8b7c9b52d43dd4867557881381800ee300a8e70f3"},
+    {"path": "contracts/certimesh_registry.py", "sha256": "a68fc83779fafd2d69a0e97673674a6eb55bac9faf8586fcdccf91179e062f8f"},
+    {"path": "contracts/certimesh_evidence_registry.py", "sha256": "4c1c5942fd8c9f98c4bc1f1292f1b29109d03fdc1235db34700056f8bac87a7c"},
+    {"path": "contracts/certimesh_adjudicator.py", "sha256": "d9a9bb1b3b260c007cac7210c5a3e085caf737ed31db95fd5c09694e95209864"}
+  ],
   "local_verification": {
-    "test_suite": "16 passed",
+    "test_suite": "18 passed",
     "supported_runtime_bundle_gate": "READY_FOR_MULTI_VALIDATOR_RUN",
-    "release_manifest_sha256": "b8cf2d4448af528f774ed81726c99d529d867616ae6915ef9fb58463de3c421f",
+    "release_manifest_sha256": "0e69ca47b46ec0a579c08ccfff24f3314255127d3ebd4d3f12e36b95af4c0feb",
     "release_gate": "PASS",
     "genvm_lint": "PASS: program registry, assessment registry, evidence registry, and adjudicator deployment artifacts"
   },
@@ -27,6 +29,8 @@
     "contract_address": null
   },
   "split_architecture": {
+    "superseded": true,
+    "superseded_reason": "This stack predates the corrected subjective-consensus and requester-only recovery release; do not bind or use it.",
     "manifest_sha256": "b8cf2d4448af528f774ed81726c99d529d867616ae6915ef9fb58463de3c421f",
     "program_registry": {
       "artifact": "contracts/certimesh_program_registry_deploy.py",
@@ -136,7 +140,52 @@
       "evidence_policy_hash": "fa2e60aa3e831a1d3ae7a2411549028e824b403b2a8a0b840c9491e6f2a35783"
     }
   },
+  "active_split_architecture": {
+    "status": "PENDING_FINALIZATION",
+    "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
+    "assessment_registry": {
+      "artifact": "contracts/certimesh_registry_deploy.py",
+      "artifact_sha256": "380bed7ae1aa42f88c2b1d3f086ae54d6b87aac38aeabbed2f6548264ac83412",
+      "transaction_id": "0x2d62082353df86e310ee6cc7a3ae27195378506c95b80fd77c3490e8f3377a9c",
+      "contract_address": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "consensus_status": "ACCEPTED",
+      "constructor_program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2"
+    },
+    "evidence_registry": {
+      "artifact": "contracts/certimesh_evidence_registry_deploy.py",
+      "artifact_sha256": "1ce502712df43c5c4211dd54a54ed028a2042675326e7ad201eeb01b7f51468c",
+      "transaction_id": "0x98f4e7e37f50d56c9251a446553825fe2033a808556c04ef7147b3940be51234",
+      "contract_address": "0xebEC3e05e62533d755c6868f297d82376D2133a5",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "consensus_status": "ACCEPTED",
+      "constructor_assessment_registry": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7",
+      "constructor_program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2"
+    },
+    "adjudicator": {
+      "artifact": "contracts/certimesh_adjudicator_deploy.py",
+      "artifact_sha256": "cc044f73c417caf900cafe860a2242c401f17fca4a372d419d3857c6f066e212",
+      "transaction_id": "0x6bdef24b5b0d57bb3363a6888e793056d718a733d6a1d8a407fba7ad34e0def7",
+      "contract_address": "0xA886Da7226Af8239A9187FeA541F0f769c8f2b69",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "consensus_status": "ACCEPTED",
+      "constructor_assessment_registry": "0x24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7"
+    },
+    "binding_transactions": [],
+    "readback_verification": "BLOCKED_UNTIL_ALL_THREE_DEPLOYMENTS_FINALIZE"
+  },
   "negative_evidence": [
+    {
+      "attempt": "registry deployment with address# constructor tag",
+      "result": "FINISHED_WITH_ERROR",
+      "transaction_id": "0x08762d4b738f3663f351c5c2adaf0b034f6b2576535d96f1d0ec9c5051373b7f",
+      "reason": "The CLI supports addr# followed by 40 hex characters without a second 0x prefix; the malformed tag reached the constructor as invalid address data."
+    },
+    {
+      "attempt": "parallel evidence/adjudicator deployments",
+      "result": "NOT_USED",
+      "reason": "The account nonce collided while two deployment transactions were submitted in parallel; the release procedure now requires sequential submissions."
+    },
     {
       "attempt": "program creation with undocumented literal str: prefixes",
       "result": "REVERTED_BEFORE_STATE_COMMIT",

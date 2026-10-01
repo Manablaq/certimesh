@@ -102,7 +102,7 @@ def main() -> int:
                 continue
             methods = {node.name for node in contract.body if isinstance(node, ast.FunctionDef)}
             if class_name == "CertiMeshRegistry":
-                required_methods = {"__init__", "bind_adjudicator", "record_assessment_result", "assess"}
+                required_methods = {"__init__", "bind_adjudicator", "record_assessment_result", "assess", "retry_assessment"}
                 if not required_methods.issubset(methods):
                     failures.append("registry is missing split binding or callback methods")
                 if "run_nondet_unsafe" in candidate:
@@ -121,8 +121,8 @@ def main() -> int:
                     continue
                 if not {"__init__", "registry_address", "assess"}.issubset(methods):
                     failures.append("adjudicator is missing authenticated assessment methods")
-                if "run_nondet_unsafe" not in candidate:
-                    failures.append(f"validator consensus boundary missing from {candidate_label}")
+                if "prompt_non_comparative" not in candidate:
+                    failures.append(f"subjective validator consensus boundary missing from {candidate_label}")
     if failures:
         for failure in failures:
             print(f"FAIL {failure}")

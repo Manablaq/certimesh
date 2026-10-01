@@ -73,3 +73,12 @@ Registry address. The Assessment Registry owner must bind the Evidence Registry
 and Adjudicator exactly once; each binding requires a reciprocal address check.
 No verdict or certificate authority is granted to the deployer by those wiring
 operations.
+
+When using the GenLayer CLI, pass constructor addresses as `addr#` followed by
+the 40 hexadecimal characters **without** a second `0x` prefix, for example
+`addr#24f92ca9C42cC3E093cE6a1D0F2B9a2B474D66A7`. Run deployments and writes
+sequentially because Bradbury accounts cannot safely submit nonce-conflicting
+transactions in parallel. The CLI success banner is not release evidence:
+accept a deployment only after the RPC receipt reports `FINALIZED` and
+`FINISHED_WITH_RETURN`; reject `FINISHED_WITH_ERROR` even when consensus says
+`ACCEPTED`.
