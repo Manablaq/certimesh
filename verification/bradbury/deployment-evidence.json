@@ -518,12 +518,31 @@
     "assessment_dispatch": {
       "transaction_id": "0xeba1475dfb00ef554f5ea14a93b5166b8d539bec2cea722b2774ff14fbca4f81",
       "assessment_id": 1,
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "execution_status": "FINISHED_WITH_RETURN",
       "adjudicator_address": "0xA886Da7226Af8239A9187FeA541F0f769c8f2b69",
       "child_message_emitted": true
     },
-    "next_action": "Wait for assessment dispatch finality, then inspect the Adjudicator child transaction and Registry callback."
+    "adjudicator_child": {
+      "transaction_id": "0x3a0bc3537871d3d757fd3a08822246acf814f4332cd16c4c56f2c7890ac723e9",
+      "consensus_status": "FINALIZED",
+      "consensus_result": "NO_MAJORITY",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "execution_hash": "0x46caf5fd16ee3628e3706731c6a91dce58f8373f2602bf89f2ad72b19dd0247b",
+      "validated_decision_payload": "CERTIFIED",
+      "registry_callback_processed": false,
+      "recovery_reason": "NO_MAJORITY prevented the callback from advancing the bound assessment."
+    },
+    "assessment_retry": {
+      "transaction_id": "0x4f4db82d158355329bbaf0aec0f32aba1244e1c6695a9eafadbdd00aa585bb2c",
+      "assessment_id": 1,
+      "generation": 1,
+      "evidence_set_hash": "f635d614814c161ff00c9351c28d2af43a80ce1f5beffab447f0f09b934534f4",
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "child_message_emitted": true
+    },
+    "next_action": "Wait for retry finality, then inspect its adjudicator child and Registry callback."
   },
-  "remaining_live_path": "Assessment 1 create, both attestations, and evidence bind are finalized. Assessment dispatch is accepted and emitted the Adjudicator child call; wait for parent finality and child outcome."
+  "remaining_live_path": "Assessment 1 create, both attestations, evidence bind, and the first dispatch are finalized. The first adjudicator child finalized NO_MAJORITY without a Registry callback; one exact-generation retry is accepted and awaiting finality."
 }
