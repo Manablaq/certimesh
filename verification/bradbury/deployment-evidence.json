@@ -509,10 +509,21 @@
     "evidence_bind": {
       "transaction_id": "0x41eb412dacb43c64055f969598774f16f92ee78abe1f5405f81d4930389cf0ef",
       "assessment_id": 1,
-      "consensus_status": "ACCEPTED",
-      "execution_status": "FINISHED_WITH_RETURN"
+      "consensus_status": "FINALIZED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "evidence_set_hash": "f635d614814c161ff00c9351c28d2af43a80ce1f5beffab447f0f09b934534f4",
+      "generation": 1,
+      "readback_bound": true
     },
-    "next_action": "Wait for evidence bind finality, then verify the bound snapshot before dispatching assessment 1."
+    "assessment_dispatch": {
+      "transaction_id": "0xeba1475dfb00ef554f5ea14a93b5166b8d539bec2cea722b2774ff14fbca4f81",
+      "assessment_id": 1,
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "adjudicator_address": "0xA886Da7226Af8239A9187FeA541F0f769c8f2b69",
+      "child_message_emitted": true
+    },
+    "next_action": "Wait for assessment dispatch finality, then inspect the Adjudicator child transaction and Registry callback."
   },
-  "remaining_live_path": "Assessment 1 create and both evidence attestations are finalized. Evidence bind is accepted and awaiting finality; do not dispatch assessment until the bound snapshot is confirmed."
+  "remaining_live_path": "Assessment 1 create, both attestations, and evidence bind are finalized. Assessment dispatch is accepted and emitted the Adjudicator child call; wait for parent finality and child outcome."
 }
