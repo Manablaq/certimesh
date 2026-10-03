@@ -43,3 +43,10 @@ deployment, reciprocal bindings, readback, and a fresh end-to-end assessment
 have all been finalized. The external VerdictGraph UI is not part of this
 repository; this repository contains the protocol contracts, artifacts, tests,
 and release evidence only.
+
+The superseding corrected redeployment is tracked separately in
+[`verification/bradbury/corrected-run-20261003.json`](../verification/bradbury/corrected-run-20261003.json).
+That record remains pending until the asynchronous adjudicator callback's
+unchallenged challenge window closes and `finalize_assessment(1)` is read back;
+the prior active record must not be used for the corrected retry-cooldown
+release.

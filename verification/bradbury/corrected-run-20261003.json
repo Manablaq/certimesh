@@ -1,8 +1,8 @@
 {
   "schema": "certimesh-bradbury-corrected-run-v1",
-  "recorded_at": "2026-10-03T00:24:00Z",
-  "status": "ADJUDICATION_DISPATCHED_PENDING_FINALITY",
-  "status_note": "All writes below were accepted with FINISHED_WITH_RETURN and five AGREE validator votes. Bradbury finality and the asynchronous adjudicator callback remain pending; no final decision is asserted here.",
+  "recorded_at": "2026-10-03T15:16:22Z",
+  "status": "PROVISIONAL_CERTIFIED_PENDING_CHALLENGE_WINDOW",
+  "status_note": "All deployments, bindings, attestations, assessment creation, evidence binding, and assessment dispatch are FINALIZED with FINISHED_WITH_RETURN and five AGREE validator votes. The adjudicator callback has recorded PROVISIONAL CERTIFIED. Finalization is intentionally pending until the unchallenged challenge window closes.",
   "network": "GenLayer Bradbury Testnet",
   "chain_id": 4221,
   "rpc_url": "https://rpc-bradbury.genlayer.com",
@@ -23,30 +23,32 @@
     "assessment_registry": {
       "address": "0x61e9F6C10d7e78bD4C7c5e993F0Ba3E7115f8020",
       "deployment_transaction": "0x46949fd21c5873c621aac2dca1641d5a480c20407964fe770514873254a39794",
-      "deployment_status_at_recording": "ACCEPTED",
+      "deployment_status_at_recording": "FINALIZED",
       "deployment_execution": "FINISHED_WITH_RETURN"
     },
     "evidence_registry": {
       "address": "0x737E0313c14b1485A795D9f9aD790760ffBc5fa9",
       "deployment_transaction": "0xa9a9c56f58ce01fa67162525729e1e796693bc096dede45c518a0528505aba28",
-      "deployment_status_at_recording": "ACCEPTED",
+      "deployment_status_at_recording": "FINALIZED",
       "deployment_execution": "FINISHED_WITH_RETURN"
     },
     "adjudicator": {
       "address": "0x0031c471ceE43bC154178A4324e29e53C37d15aa",
       "deployment_transaction": "0x492bbdd2ae9ef6261d6a690059e7b0a2ccec0eaac1effbad907114ad1c7ee7ae",
-      "deployment_status_at_recording": "ACCEPTED",
+      "deployment_status_at_recording": "FINALIZED",
       "deployment_execution": "FINISHED_WITH_RETURN"
     }
   },
   "bindings": {
     "evidence_registry": {
       "transaction": "0x7db3d0c3d97ff253672bdc9a72195986099f0a1ad672c02e0505f03f4e5fa0ff",
-      "readback": "0x737e0313c14b1485a795d9f9ad790760ffbc5fa9"
+      "readback": "0x737e0313c14b1485a795d9f9ad790760ffbc5fa9",
+      "status": "FINALIZED"
     },
     "adjudicator": {
       "transaction": "0x0ad161a9274af1d009c3ed8f1e88562964ea7a86f5ade495e3ec5dea9e07de54",
-      "readback": "0x0031c471cee43bc154178a4324e29e53c37d15aa"
+      "readback": "0x0031c471cee43bc154178a4324e29e53c37d15aa",
+      "status": "FINALIZED"
     }
   },
   "assessment": {
@@ -58,18 +60,28 @@
     "subject_digest": "6f3eff709502a55ccfb6ee58c1ac1dc3820012689860d06b6a9bdc472634b017",
     "assessment_deadline": 1791038804,
     "create_transaction": "0x3169863ffa9fb6c84cb152ad87de5132f63021210a2e81e494fe4599a8f5f240",
+    "create_transaction_status": "FINALIZED",
     "state_after_assessment_dispatch": "EVIDENCE_BOUND",
     "evidence_set_hash": "ee1c3f4a9c9c4e43d9a165e84b6eb1e4aaf254cfaa7a7359d83043ace446131a",
     "assessment_transaction": "0xe281fb0b29d8b70236d514dd2afe33f94564daa516210e20cc7eac655d04ca2d",
+    "assessment_transaction_status": "FINALIZED",
     "last_retry_at": 1791032651,
     "retry_available_at": 1791034451,
-    "adjudicator_dispatch": "emitted by assessment transaction to the bound Adjudicator; callback outcome pending"
+    "adjudicator_dispatch": "emitted by assessment transaction to the bound Adjudicator; callback finalized",
+    "callback_readback": {
+      "state": "PROVISIONAL",
+      "provisional_decision": "CERTIFIED",
+      "decision_recorded": false,
+      "challenge_deadline": 1791038804,
+      "read_at": "2026-10-03T15:16:22Z"
+    }
   },
   "evidence": {
     "primary": {
       "role": 1,
       "authority": "0x1f87ae197af539253978d435ad45ccf28fb95024",
       "transaction": "0xfd6d8af1a649277037e22b81c04dedfc594166586abe543dae887b8e71f93951",
+      "transaction_status": "FINALIZED",
       "record_id": "primary-readme-d4a94f5",
       "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/d4a94f5/README.md",
       "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/d4a94f5/README.md",
@@ -79,12 +91,14 @@
       "role": 2,
       "authority": "0x5bb49021001200fe8156a81c7fcf097e535e7181",
       "transaction": "0x0f99465ffd0ac8a59f752e3598b57f0031e6ccc95dd4adae48f3d22e34a65a24",
+      "transaction_status": "FINALIZED",
       "record_id": "corroborating-security-d4a94f5",
       "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/d4a94f5/docs/SECURITY.md",
       "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/d4a94f5/docs/SECURITY.md",
       "sha256": "cfb5b83798e7bb69c570bc2cb866bd51cc5be68eaa1a416c169f680dbedf7f77"
     },
     "binding_transaction": "0x0988525be88347a7da495a833f2a070fed877d5096eabc30a0fe46f2bdbe15d9",
+    "binding_transaction_status": "FINALIZED",
     "bound_snapshot": {
       "bound": true,
       "generation": 1,
@@ -93,7 +107,8 @@
   },
   "finality_requirements": [
     "Every listed write must reach FINALIZED and FINISHED_WITH_RETURN.",
-    "The adjudicator callback must record a final decision or an explicit repair result.",
+    "The adjudicator callback must record a provisional decision before the challenge window can begin.",
+    "The unchallenged challenge window must close before finalize_assessment is submitted and verified.",
     "No certificate or submission-ready claim is made until those readbacks are verified."
   ]
 }
