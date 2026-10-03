@@ -1,0 +1,99 @@
+{
+  "schema": "certimesh-bradbury-corrected-run-v1",
+  "recorded_at": "2026-10-03T00:24:00Z",
+  "status": "ADJUDICATION_DISPATCHED_PENDING_FINALITY",
+  "status_note": "All writes below were accepted with FINISHED_WITH_RETURN and five AGREE validator votes. Bradbury finality and the asynchronous adjudicator callback remain pending; no final decision is asserted here.",
+  "network": "GenLayer Bradbury Testnet",
+  "chain_id": 4221,
+  "rpc_url": "https://rpc-bradbury.genlayer.com",
+  "consensus_contract": "0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D",
+  "source_commit": "d4a94f5c89aedd24715c44b10a4b46417a8ab635",
+  "source_hashes": {
+    "contracts/certimesh_registry.py": "291c0ec64b6fc413224bc46cfc0b94c7f7867a24054e4937c9ebff383730e74c",
+    "contracts/certimesh_registry_deploy.py": "e4b240ac748705a4abaad970330f366d34e6334628ab8b978e1bc21df9b57d7e",
+    "contracts/certimesh_evidence_registry.py": "4c1c5942fd8c9f98c4bc1f1292f1b29109d03fdc1235db34700056f8bac87a7c",
+    "contracts/certimesh_evidence_registry_deploy.py": "1ce502712df43c5c4211dd54a54ed028a2042675326e7ad201eeb01b7f51468c",
+    "contracts/certimesh_adjudicator.py": "d9a9bb1b3b260c007cac7210c5a3e085caf737ed31db95fd5c09694e95209864",
+    "contracts/certimesh_adjudicator_deploy.py": "cc044f73c417caf900cafe860a2242c401f17fca4a372d419d3857c6f066e212",
+    "README.md": "155bda8bc1b1df7e208a7584298a1c2c1708e9fd7dde01369c66b38c70962abe",
+    "docs/SECURITY.md": "cfb5b83798e7bb69c570bc2cb866bd51cc5be68eaa1a416c169f680dbedf7f77"
+  },
+  "contracts": {
+    "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
+    "assessment_registry": {
+      "address": "0x61e9F6C10d7e78bD4C7c5e993F0Ba3E7115f8020",
+      "deployment_transaction": "0x46949fd21c5873c621aac2dca1641d5a480c20407964fe770514873254a39794",
+      "deployment_status_at_recording": "ACCEPTED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    },
+    "evidence_registry": {
+      "address": "0x737E0313c14b1485A795D9f9aD790760ffBc5fa9",
+      "deployment_transaction": "0xa9a9c56f58ce01fa67162525729e1e796693bc096dede45c518a0528505aba28",
+      "deployment_status_at_recording": "ACCEPTED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    },
+    "adjudicator": {
+      "address": "0x0031c471ceE43bC154178A4324e29e53C37d15aa",
+      "deployment_transaction": "0x492bbdd2ae9ef6261d6a690059e7b0a2ccec0eaac1effbad907114ad1c7ee7ae",
+      "deployment_status_at_recording": "ACCEPTED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    }
+  },
+  "bindings": {
+    "evidence_registry": {
+      "transaction": "0x7db3d0c3d97ff253672bdc9a72195986099f0a1ad672c02e0505f03f4e5fa0ff",
+      "readback": "0x737e0313c14b1485a795d9f9ad790760ffbc5fa9"
+    },
+    "adjudicator": {
+      "transaction": "0x0ad161a9274af1d009c3ed8f1e88562964ea7a86f5ade495e3ec5dea9e07de54",
+      "readback": "0x0031c471cee43bc154178a4324e29e53c37d15aa"
+    }
+  },
+  "assessment": {
+    "assessment_id": 1,
+    "generation": 1,
+    "program_id": "certification",
+    "program_version": 1,
+    "subject_id": "certimesh-hardened-20261003-redeploy",
+    "subject_digest": "6f3eff709502a55ccfb6ee58c1ac1dc3820012689860d06b6a9bdc472634b017",
+    "assessment_deadline": 1791038804,
+    "create_transaction": "0x3169863ffa9fb6c84cb152ad87de5132f63021210a2e81e494fe4599a8f5f240",
+    "state_after_assessment_dispatch": "EVIDENCE_BOUND",
+    "evidence_set_hash": "ee1c3f4a9c9c4e43d9a165e84b6eb1e4aaf254cfaa7a7359d83043ace446131a",
+    "assessment_transaction": "0xe281fb0b29d8b70236d514dd2afe33f94564daa516210e20cc7eac655d04ca2d",
+    "last_retry_at": 1791032651,
+    "retry_available_at": 1791034451,
+    "adjudicator_dispatch": "emitted by assessment transaction to the bound Adjudicator; callback outcome pending"
+  },
+  "evidence": {
+    "primary": {
+      "role": 1,
+      "authority": "0x1f87ae197af539253978d435ad45ccf28fb95024",
+      "transaction": "0xfd6d8af1a649277037e22b81c04dedfc594166586abe543dae887b8e71f93951",
+      "record_id": "primary-readme-d4a94f5",
+      "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/d4a94f5/README.md",
+      "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/d4a94f5/README.md",
+      "sha256": "155bda8bc1b1df7e208a7584298a1c2c1708e9fd7dde01369c66b38c70962abe"
+    },
+    "corroborating": {
+      "role": 2,
+      "authority": "0x5bb49021001200fe8156a81c7fcf097e535e7181",
+      "transaction": "0x0f99465ffd0ac8a59f752e3598b57f0031e6ccc95dd4adae48f3d22e34a65a24",
+      "record_id": "corroborating-security-d4a94f5",
+      "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/d4a94f5/docs/SECURITY.md",
+      "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/d4a94f5/docs/SECURITY.md",
+      "sha256": "cfb5b83798e7bb69c570bc2cb866bd51cc5be68eaa1a416c169f680dbedf7f77"
+    },
+    "binding_transaction": "0x0988525be88347a7da495a833f2a070fed877d5096eabc30a0fe46f2bdbe15d9",
+    "bound_snapshot": {
+      "bound": true,
+      "generation": 1,
+      "evidence_set_hash": "ee1c3f4a9c9c4e43d9a165e84b6eb1e4aaf254cfaa7a7359d83043ace446131a"
+    }
+  },
+  "finality_requirements": [
+    "Every listed write must reach FINALIZED and FINISHED_WITH_RETURN.",
+    "The adjudicator callback must record a final decision or an explicit repair result.",
+    "No certificate or submission-ready claim is made until those readbacks are verified."
+  ]
+}
