@@ -31,8 +31,10 @@ first retry reached a terminal callback.
 **Resolution:** the Registry now stores `last_retry_at`, rejects another retry
 until a 1,800-second cooldown elapses, exposes `retry_available_at` through the
 assessment context, and clears the timer when a new repair generation opens.
-The regression test proves an immediate duplicate retry is rejected and a
-retry after the cooldown is accepted.
+The initial adjudication dispatch also starts the same timer, so a requester
+cannot immediately add a second dispatch before the first callback resolves.
+The regression tests prove both that immediate duplicate paths are rejected
+and that a retry after the cooldown is accepted.
 
 ## Controls verified
 
@@ -64,9 +66,9 @@ retry after the cooldown is accepted.
 Executed in a fresh pinned virtual environment:
 
 ```text
-18 passed in 0.29s
+19 passed in 0.34s
 CERTIMESH_RELEASE_GATE=PASS
-SUPPORTED_RUNTIME_BUNDLE=READY_FOR_MULTI_VALIDATOR_RUN
+FAIL supported-runtime evidence package is incomplete
 PASS deployment artifact is executable-AST equivalent
 git diff --check: clean
 ```

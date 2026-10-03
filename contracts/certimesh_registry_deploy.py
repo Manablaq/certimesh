@@ -136,7 +136,7 @@ class CertiMeshRegistry(gl.Contract):
 		b=c.get('evidence_set_hash','')
 		if not G15(b):G18('Evidence binding is invalid')
 		if G21(self.adjudicator_address)==G21(G5):G18('Adjudicator is not bound')
-		e.evidence_set_hash=b;e.state=G3;cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on='finalized').assess(assessment_id,e.generation,b)
+		e.evidence_set_hash=b;e.state=G3;e.last_retry_at=d;cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on='finalized').assess(assessment_id,e.generation,b)
 	@gl.public.write
 	def retry_assessment(self,assessment_id:u256)->None:
 		c=self.m1(assessment_id)

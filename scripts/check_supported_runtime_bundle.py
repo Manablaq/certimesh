@@ -11,14 +11,23 @@ BUNDLE = ROOT / "verification" / "supported_runtime"
 def main() -> int:
     required = [
         ROOT / "docs" / "BRADBURY_VERIFICATION.md",
-        BUNDLE / ".gitkeep",
         BUNDLE / "README.md",
     ]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
     if missing:
         print("FAIL missing supported-runtime files: " + ", ".join(missing))
         return 1
-    print("SUPPORTED_RUNTIME_BUNDLE=READY_FOR_MULTI_VALIDATOR_RUN")
+    manifest = BUNDLE / "manifest.json"
+    raw_dir = BUNDLE / "raw"
+    if not manifest.is_file() or not raw_dir.is_dir():
+        print("FAIL supported-runtime evidence package is incomplete")
+        print("  requires verification/supported_runtime/manifest.json and raw/")
+        return 1
+    raw_files = [path for path in raw_dir.rglob("*") if path.is_file()]
+    if not raw_files:
+        print("FAIL supported-runtime evidence package has no raw validator artifacts")
+        return 1
+    print("SUPPORTED_RUNTIME_BUNDLE=COMPLETE")
     return 0
 
 

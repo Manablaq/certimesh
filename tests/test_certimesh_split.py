@@ -139,6 +139,7 @@ def test_retry_replays_only_the_same_bound_request_for_the_requester(
     assessment = registry.get_assessment(assessment_id)
     assessment.state = "EVIDENCE_BOUND"
     assessment.evidence_set_hash = "b" * 64
+    assessment.last_retry_at = 1790501400
     registry.assessments[assessment_id] = assessment
 
     with direct_vm.expect_revert("Only the assessment requester"):
@@ -162,6 +163,61 @@ def test_retry_replays_only_the_same_bound_request_for_the_requester(
     assessment.state = "PROVISIONAL"
     registry.assessments[assessment_id] = assessment
     with direct_vm.expect_revert("Only evidence-bound assessments"):
+        registry.retry_assessment(assessment_id)
+
+
+def test_initial_assessment_dispatch_starts_retry_cooldown(
+    direct_vm, direct_deploy, direct_owner, direct_alice, direct_charlie
+):
+    registry = direct_deploy(REGISTRY, direct_owner)
+
+    def hook(active_vm, request):
+        if "CallContract" in request:
+            data = request["CallContract"]
+            calldata_obj = data.get("calldata", {})
+            method = calldata_obj.get("method")
+            from genlayer.py.types import Address
+
+            if method == "registry_address":
+                return _success(Address(active_vm._contract_address))
+            if method == "get_program_snapshot":
+                return _success(json.dumps({
+                    "creator": "0x" + "11" * 20,
+                    "program_id": "certification",
+                    "version": 1,
+                    "criteria_json": "{}",
+                    "evidence_policy_json": "{}",
+                    "primary_authority": "0x" + "22" * 20,
+                    "corroborating_authority": "0x" + "33" * 20,
+                    "challenge_window_seconds": 3600,
+                    "max_evidence_age_seconds": 86400,
+                    "certificate_validity_seconds": 86400,
+                    "max_assessment_horizon_seconds": 172800,
+                    "retired": False,
+                }))
+            if method == "get_bound_snapshot":
+                return _success(json.dumps({
+                    "bound": True,
+                    "generation": 1,
+                    "evidence_set_hash": "b" * 64,
+                }))
+        if "PostMessage" in request:
+            return {"ok": None}
+        return None
+
+    direct_vm._gl_call_hook = hook
+    direct_vm.warp("2026-09-27T10:00:00+00:00")
+    direct_vm.sender = direct_owner
+    registry.bind_evidence_registry(direct_alice)
+    registry.bind_adjudicator(direct_alice)
+    direct_vm.sender = direct_charlie
+    assessment_id = registry.create_assessment(
+        "certification", 1, "subject-002", "c" * 64, TEST_TIME_UNIX + 172800
+    )
+    registry.assessments[assessment_id].state = "REQUESTED"
+    registry.assess(assessment_id)
+
+    with direct_vm.expect_revert("Retry cooldown has not elapsed"):
         registry.retry_assessment(assessment_id)
 
 
