@@ -542,7 +542,16 @@
       "execution_status": "FINISHED_WITH_RETURN",
       "child_message_emitted": true
     },
-    "next_action": "Wait for retry finality, then inspect its adjudicator child and Registry callback."
+    "assessment_finalization": {
+      "transaction_id": "0x5bb2ecefb3c8c9d74339c87771fa2a37cc1a18168e0f07eab09a4d639ff5b9d4",
+      "assessment_id": 1,
+      "consensus_status": "ACCEPTED",
+      "execution_status": "FINISHED_WITH_RETURN",
+      "consensus_result": "AGREE",
+      "execution_hash": "0x4aa007ac2b12137157601142de07875ff11bd6f4e96d7a0d8fc2e1b17d033eba",
+      "next_action": "Wait for finality, then read back the terminal FINAL decision and certificate digest."
+    },
+    "next_action": "Wait for the finalization transaction to finalize, then verify the terminal FINAL state and certificate digest."
   },
-  "remaining_live_path": "Assessment 1 create, both attestations, evidence bind, and the first dispatch are finalized. The first adjudicator child finalized NO_MAJORITY without a Registry callback; one exact-generation retry is accepted and awaiting finality."
+  "remaining_live_path": "Assessment 1 create, both attestations, evidence bind, dispatch, retry, and callback are complete. The finalization transaction is accepted and awaiting finality; then verify the terminal FINAL state and certificate digest."
 }
