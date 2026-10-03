@@ -545,13 +545,21 @@
     "assessment_finalization": {
       "transaction_id": "0x5bb2ecefb3c8c9d74339c87771fa2a37cc1a18168e0f07eab09a4d639ff5b9d4",
       "assessment_id": 1,
-      "consensus_status": "ACCEPTED",
+      "consensus_status": "FINALIZED",
       "execution_status": "FINISHED_WITH_RETURN",
       "consensus_result": "AGREE",
       "execution_hash": "0x4aa007ac2b12137157601142de07875ff11bd6f4e96d7a0d8fc2e1b17d033eba",
-      "next_action": "Wait for finality, then read back the terminal FINAL decision and certificate digest."
+      "terminal_readback": {
+        "state": "FINAL",
+        "final_decision": "CERTIFIED",
+        "decision_recorded": true,
+        "decision_nonce": 1,
+        "certificate_digest": "a3613a992acd552574891706d6742b32b65fb68a6d88b09992b260a57669d31d",
+        "issued_at": 1791005762,
+        "expires_at": 1791610562
+      }
     },
-    "next_action": "Wait for the finalization transaction to finalize, then verify the terminal FINAL state and certificate digest."
+    "next_action": "Complete: terminal FINAL/CERTIFIED state and certificate digest verified on Bradbury."
   },
-  "remaining_live_path": "Assessment 1 create, both attestations, evidence bind, dispatch, retry, and callback are complete. The finalization transaction is accepted and awaiting finality; then verify the terminal FINAL state and certificate digest."
+  "remaining_live_path": "Complete: assessment 1 create, both attestations, evidence bind, dispatch, retry, callback, finalization, and terminal certificate readback are verified on Bradbury."
 }
