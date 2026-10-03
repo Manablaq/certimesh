@@ -151,6 +151,14 @@ def test_retry_replays_only_the_same_bound_request_for_the_requester(
     assert registry.get_assessment(assessment_id).evidence_set_hash == "b" * 64
     assert any(method == "post_message" for _, method, _ in calls)
 
+    with direct_vm.expect_revert("Retry cooldown has not elapsed"):
+        registry.retry_assessment(assessment_id)
+
+    direct_vm.warp("2026-09-27T10:31:00+00:00")
+    registry.retry_assessment(assessment_id)
+    assert registry.get_assessment(assessment_id).last_retry_at == 1790505060
+
+    assessment = registry.get_assessment(assessment_id)
     assessment.state = "PROVISIONAL"
     registry.assessments[assessment_id] = assessment
     with direct_vm.expect_revert("Only evidence-bound assessments"):

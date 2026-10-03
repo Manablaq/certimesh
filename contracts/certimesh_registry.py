@@ -9,7 +9,7 @@ from genlayer import *
 
 ZERO_ADDRESS=Address("0x0000000000000000000000000000000000000000")
 REQUESTED="REQUESTED"; EVIDENCE_BOUND="EVIDENCE_BOUND"; PROVISIONAL="PROVISIONAL"; CHALLENGED="CHALLENGED"; REPAIR_REQUIRED="REPAIR_REQUIRED"; FINAL="FINAL"; EXPIRED="EXPIRED"
-CERTIFIED="CERTIFIED"; REJECTED="REJECTED"; REPAIR="REPAIR"; MAX_SUBJECT_ID_CHARS=256; MAX_TEXT_CHARS=4000
+CERTIFIED="CERTIFIED"; REJECTED="REJECTED"; REPAIR="REPAIR"; MAX_SUBJECT_ID_CHARS=256; MAX_TEXT_CHARS=4000; RETRY_COOLDOWN_SECONDS=1800
 
 @gl.contract_interface
 class CertiMeshProgramRegistry:
@@ -61,7 +61,7 @@ class ProgramRecord:
 @allow_storage
 @dataclass
 class AssessmentRecord:
-    requester:Address; assessment_id:u256; program_id:str; program_version:u256; subject_id:str; subject_digest:str; state:str; generation:u256; evidence_set_hash:str; provisional_decision:str; challenge_hash:str; challenge_deadline:u256; assessment_deadline:u256; final_decision:str; certificate_digest:str; issued_at:u256; expires_at:u256; decision_nonce:u256; decision_recorded:bool; challenged:bool
+    requester:Address; assessment_id:u256; program_id:str; program_version:u256; subject_id:str; subject_digest:str; state:str; generation:u256; evidence_set_hash:str; provisional_decision:str; challenge_hash:str; challenge_deadline:u256; assessment_deadline:u256; final_decision:str; certificate_digest:str; issued_at:u256; expires_at:u256; decision_nonce:u256; decision_recorded:bool; challenged:bool; last_retry_at:u256
 
 @allow_storage
 @dataclass
@@ -118,18 +118,19 @@ class CertiMeshRegistry(gl.Contract):
         key=_commitment(program_id,program_version,subject_digest)
         if key in self.assessment_commitment_seen:_fail("Assessment commitment already exists")
         assessment_id=self.next_assessment_id; self.next_assessment_id=u256(int(assessment_id)+1); self.assessment_commitment_seen[key]=True
-        self.assessments[assessment_id]=AssessmentRecord(requester=_addr(gl.message.sender_address),assessment_id=assessment_id,program_id=program_id,program_version=program_version,subject_id=subject_id,subject_digest=subject_digest,state=REQUESTED,generation=u256(1),evidence_set_hash="",provisional_decision="",challenge_hash="",challenge_deadline=u256(0),assessment_deadline=assessment_deadline,final_decision="",certificate_digest="",issued_at=u256(0),expires_at=u256(0),decision_nonce=u256(0),decision_recorded=False,challenged=False)
+        self.assessments[assessment_id]=AssessmentRecord(requester=_addr(gl.message.sender_address),assessment_id=assessment_id,program_id=program_id,program_version=program_version,subject_id=subject_id,subject_digest=subject_digest,state=REQUESTED,generation=u256(1),evidence_set_hash="",provisional_decision="",challenge_hash="",challenge_deadline=u256(0),assessment_deadline=assessment_deadline,final_decision="",certificate_digest="",issued_at=u256(0),expires_at=u256(0),decision_nonce=u256(0),decision_recorded=False,challenged=False,last_retry_at=u256(0))
         return assessment_id
     @gl.public.view
     def get_assessment_context(self,assessment_id:u256)->str:
         a=self._assessment(assessment_id)
-        return json.dumps({"assessment_id":int(a.assessment_id),"requester":_key(a.requester),"program_id":a.program_id,"program_version":int(a.program_version),"subject_id":a.subject_id,"subject_digest":a.subject_digest,"state":a.state,"generation":int(a.generation),"assessment_deadline":int(a.assessment_deadline)},sort_keys=True,separators=(",",":"))
+        retry_available_at=int(a.last_retry_at)+RETRY_COOLDOWN_SECONDS if int(a.last_retry_at) else 0
+        return json.dumps({"assessment_id":int(a.assessment_id),"requester":_key(a.requester),"program_id":a.program_id,"program_version":int(a.program_version),"subject_id":a.subject_id,"subject_digest":a.subject_digest,"state":a.state,"generation":int(a.generation),"assessment_deadline":int(a.assessment_deadline),"last_retry_at":int(a.last_retry_at),"retry_available_at":retry_available_at},sort_keys=True,separators=(",",":"))
     @gl.public.write
     def open_repair_generation(self,assessment_id:u256)->u256:
         a=self._assessment(assessment_id)
         if a.state not in (REPAIR_REQUIRED,CHALLENGED):_fail("Assessment is not eligible for a fresh generation")
         if int(_now())>=int(a.assessment_deadline):_fail("Expired assessments cannot open a new generation")
-        a.generation=u256(int(a.generation)+1); a.state=REQUESTED; a.evidence_set_hash=""; a.provisional_decision=""; a.challenge_deadline=u256(0); a.challenged=False; a.decision_recorded=False
+        a.generation=u256(int(a.generation)+1); a.state=REQUESTED; a.evidence_set_hash=""; a.provisional_decision=""; a.challenge_deadline=u256(0); a.challenged=False; a.decision_recorded=False; a.last_retry_at=u256(0)
         return a.generation
     @gl.public.write
     def assess(self,assessment_id:u256)->None:
@@ -159,7 +160,10 @@ class CertiMeshRegistry(gl.Contract):
         if _key(gl.message.sender_address)!=_key(a.requester):_fail("Only the assessment requester can retry")
         if a.state!=EVIDENCE_BOUND:_fail("Only evidence-bound assessments can be retried")
         if _key(self.adjudicator_address)==_key(ZERO_ADDRESS):_fail("Adjudicator is not bound")
-        if int(_now())>=int(a.assessment_deadline):_fail("Assessment deadline has passed")
+        now=_now()
+        if int(now)>=int(a.assessment_deadline):_fail("Assessment deadline has passed")
+        if int(a.last_retry_at) and int(now)<int(a.last_retry_at)+RETRY_COOLDOWN_SECONDS:_fail("Retry cooldown has not elapsed")
+        a.last_retry_at=now
         cast(Any,CertiMeshAdjudicator(self.adjudicator_address).emit)(on="finalized").assess(assessment_id,a.generation,a.evidence_set_hash)
     @gl.public.view
     def get_review_context(self,assessment_id:u256)->str:
