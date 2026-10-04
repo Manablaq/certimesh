@@ -1,0 +1,52 @@
+{
+  "schema": "certimesh-bradbury-corrected-stack-evidence-v1",
+  "network": "testnet_bradbury",
+  "rpc_url": "https://rpc-bradbury.genlayer.com",
+  "repository_commit": "5f9c45bd73b01fcad10ff5f4a6003bc0b292b66a",
+  "source_hashes": {
+    "README.md": "155bda8bc1b1df7e208a7584298a1c2c1708e9fd7dde01369c66b38c70962abe",
+    "docs/SECURITY.md": "cfb5b83798e7bb69c570bc2cb866bd51cc5be68eaa1a416c169f680dbedf7f77"
+  },
+  "corrected_stack": {
+    "program_registry": "0x0aaF43673e001cAcD09728648EEa455F655CDDc2",
+    "assessment_registry": "0x042C3164fAB9917046Ac6962c95569F0D9Bd5d70",
+    "evidence_registry": "0x4E64898f53d60Ba869F73100DDf2C77cec2B67a7",
+    "adjudicator": "0x1bfdD1670077aBb0Bf3d2138F2c94aB6034DF116",
+    "deployment_transactions": {
+      "assessment_registry": "0x112fbd28598dafd4069466f4cb383924ac62397fa22b6c6ad6841ddd14df5424",
+      "evidence_registry": "0x12ebfaf044d794e566f7c3cfdf9748fd31e5d784c37754196c8bdca2d38344e3",
+      "adjudicator": "0xb958d6d6adfeb9ba00366246b9bf4eb98f9bd27bc5607ba3c8dde2e835d5f7c"
+    },
+    "binding_transactions": {
+      "evidence_registry": "0x6d5018eff81e6a632821104e391ebfbb1cc6992c72c750fae8240087b583f62a",
+      "adjudicator": "0x3f9fbea24eb9b637ec4d62087022526e7eb0c39a4a902f4ea441b2587c14f9bf"
+    }
+  },
+  "assessment": {
+    "assessment_id": 1,
+    "program_id": "certification",
+    "program_version": 1,
+    "subject_id": "certimesh-corrected-stack-20261004",
+    "subject_digest": "769bcdf55ff3844a47857c630a8c8f3df9ff6c7c011f55b4ec3e0ac89155013c",
+    "assessment_deadline": 1791251999,
+    "challenge_window_seconds": 3600,
+    "create_transaction": "0xf5e83635898e8179403996b0af480a8bd941936ae5e12dfb7bc71a944592d674",
+    "primary_attestation_transaction": "0x756dbb1693cf71dcf13cad0b4fd03ffd3ae6a9539700ddb192fd7d13f5a553ec",
+    "corroborating_attestation_transaction": "0x34d81c5a964de1e0495a0a88ffa99549a9843705d40782ccdd49bdd2bd254474",
+    "evidence_bind_transaction": "0xe97e3f1a95d3e1ac4b43e28ba76d0d948bd8a58f2f71c3d3784cbf9a6faae6a0",
+    "evidence_set_hash": "458116f0b565c7d496a5570a3c57f6df2e43ca224abf190f852a3df950136785",
+    "assessment_dispatch_transaction": "0x49a2cd2020af6d594deac18fb4b72cc72964ac4b61799748fa60fc8b499b3639",
+    "adjudicator_child_transaction": "0x09248f8460d1d6cc598c2ec0392be28fcd540008722a86ed6481fc583ff313dd",
+    "adjudicator_child_execution_hash": "0x6f6dd0b84f85fd076fb4d18ad5df6359cd3cba1a920b1fb604db83e3e7ffa699",
+    "adjudicator_decision": "CERTIFIED",
+    "registry_callback_transaction": "0x7a44661b809cddfe59df5b76ca90b4a629f14f79a139cbeac440369d517aeff8",
+    "registry_callback_status": "ACCEPTED",
+    "registry_state": "PROVISIONAL",
+    "provisional_decision": "CERTIFIED",
+    "challenge_deadline": 1791087337,
+    "finalization": {
+      "status": "PENDING_CHALLENGE_WINDOW",
+      "next_action": "Finalize only after challenge_deadline, then read get_certificate(1)."
+    }
+  }
+}
