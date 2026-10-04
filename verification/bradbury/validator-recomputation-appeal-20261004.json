@@ -1,0 +1,45 @@
+{
+  "schema": "certimesh-validator-recomputation-appeal-v1",
+  "network": "testnet_bradbury",
+  "reviewed_base_commit": "4983ddd093ca7832210295d470aca1673ce29c51",
+  "source_fix_commit": "b6e0ad40abd3376a726c1ce084fa39ddb968c939",
+  "source_fix_commit_url": "https://github.com/Manablaq/certimesh/commit/b6e0ad40abd3376a726c1ce084fa39ddb968c939",
+  "reviewer_finding": "The previous validator path accepted a leader-supplied JSON result using preservation criteria, so opposite CERTIFIED and REJECTED outputs were not independently adjudicated.",
+  "changed_files": [
+    "contracts/certimesh_adjudicator.py",
+    "contracts/certimesh_adjudicator_deploy.py",
+    "tests/test_certimesh_split.py",
+    "scripts/check_release.py",
+    "docs/ARCHITECTURE.md",
+    "docs/SECURITY.md"
+  ],
+  "validator_design": {
+    "leader": "run_nondet_unsafe evaluates _evaluate_context, which independently retrieves every bound source, verifies status/size/UTF-8 and committed SHA-256 values, parses the immutable program criteria and policy, and asks for one decision.",
+    "validator": "validator_fn independently reruns _evaluate_context against the frozen Registry review snapshot and validates the recomputed result.",
+    "acceptance_predicate": "The canonical JSON of the leader result must equal the canonical JSON of the independently recomputed validator result across assessment_id, generation, evidence_set_hash, result_status, decision, failure_code, and observed_sha256.",
+    "opposite_decision_behavior": "A leader CERTIFIED result and validator REJECTED result fail the predicate and cannot reach the Registry callback."
+  },
+  "source_hashes": {
+    "contracts/certimesh_adjudicator.py": "335cc6609111527f9f05bdab6fe874a5a15db944f568417993cce9e9cf668b71",
+    "contracts/certimesh_adjudicator_deploy.py": "8fa8eaba39a773f1bcb212a1f924c5866cdfee021054e7baa491677b19f9b51e",
+    "tests/test_certimesh_split.py": "89b54fc58ef6410067228ed14ebb2513c4a42350ad2719ed3bbfa1e09d198d83",
+    "scripts/check_release.py": "d65e9c02188cb894f87f7635c831de530cb459c2c9ad7a441fbd073b59aba12c"
+  },
+  "verification": {
+    "targeted_command": "python3.12 -m pytest -q tests/test_certimesh_split.py::test_adjudicator_recomputes_pinned_evidence_and_emits_validated_result tests/test_certimesh_direct.py::test_validator_rejects_different_decision -s",
+    "targeted_result": "2 passed",
+    "full_direct_mode_command": "python3.12 -m pytest -q",
+    "full_direct_mode_result": "19 passed",
+    "artifact_builder": "python3 scripts/build_adjudicator_artifact.py",
+    "artifact_result": "PASS deployment artifact is executable-AST equivalent",
+    "release_gate": "python3 scripts/check_release.py",
+    "release_gate_result": "CERTIMESH_RELEASE_GATE=PASS"
+  },
+  "live_status": {
+    "assessment_registry_reviewed": "0x042C3164fAB9917046Ac6962c95569F0D9Bd5d70",
+    "previous_live_adjudicator": "0x1bfdD1670077aBb0Bf3d2138F2c94aB6034DF116",
+    "previous_live_stack_commit": "5f9c45bd73b01fcad10ff5f4a6003bc0b292b66a",
+    "fixed_adjudicator_deployed": false,
+    "required_before_resubmission": "Deploy the generated adjudicator artifact from source_fix_commit, bind the new address through the Registry's one-shot binding path, run a fresh assessment with finalized child and callback receipts, and attach the three-validator supported-runtime campaign outputs."
+  }
+}
