@@ -51,7 +51,17 @@
     "expires_at": 1791694850,
     "finalization_transaction": "0x035bc8c4879d3d255518154bccffd5b4b1155a759289d124ec7daeaeb6b0b17a",
     "finalization_execution_hash": "0x913a2df176aacad24ac04b0a0efbe48d96e2b66ff659f683aa6b0918a04854a4",
-    "finalization_receipt_status": "ACCEPTED",
+    "finalization_receipt_status": "FINALIZED",
+    "finalization_tx_result": "AGREE",
+    "finalization_execution_result": "FINISHED_WITH_RETURN",
+    "finalization_validator_votes": [
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "AGREE"
+    ],
+    "finalization_processing_block": 23465492,
     "terminal_readback": {
       "state": "FINAL",
       "final_decision": "CERTIFIED",
@@ -61,8 +71,8 @@
       "decision_nonce": 1
     },
     "finalization": {
-      "status": "COMPLETE_ON_CHAIN_READBACK_RECEIPT_FINALITY_PENDING",
-      "next_action": "Wait for the finalization transaction receipt to reach FINALIZED; do not submit another finalization call."
+      "status": "COMPLETE",
+      "next_action": "Complete"
     }
   }
 }
