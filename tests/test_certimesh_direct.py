@@ -96,7 +96,9 @@ def test_certified_path_requires_finalization_window(
     assert contract.get_assessment(assessment_id).state == "PROVISIONAL"
     with direct_vm.expect_revert("Challenge window has not closed"):
         contract.finalize_assessment(assessment_id)
-    direct_vm.warp("2026-09-27T11:01:00+00:00")
+    # The challenge deadline is capped by assessment_deadline. Finalization
+    # must therefore remain valid after assessment_deadline has passed.
+    direct_vm.warp("2026-09-29T10:01:00+00:00")
     contract.finalize_assessment(assessment_id)
     result = contract.get_assessment(assessment_id)
     assert result.state == "FINAL"

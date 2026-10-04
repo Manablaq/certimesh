@@ -1,0 +1,16 @@
+networks:
+  default: testnet_bradbury
+  testnet_bradbury:
+    url: https://rpc-bradbury.genlayer.com
+    chain_type: testnet_bradbury
+    accounts:
+      - ${BRADBURY_TEST_KEY_1}
+      - ${BRADBURY_TEST_KEY_2}
+      - ${BRADBURY_TEST_KEY_3}
+    from: ${BRADBURY_TEST_KEY_1}
+
+paths:
+  contracts: contracts
+  artifacts: artifacts
+
+environment: .env

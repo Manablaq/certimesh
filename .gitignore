@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .env
+gltest.config.yaml
 .venv/
 artifacts/
 .DS_Store

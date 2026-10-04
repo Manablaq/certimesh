@@ -20,6 +20,20 @@ Git commit. `ACCEPTED` alone is not proof; require `FINALIZED` and
 Never use `--leader-only` as proof. If a live write returns a transaction id,
 poll it instead of resubmitting.
 
+The supported-runtime campaign requires three temporary, funded Bradbury test
+accounts. Copy `gltest.config.example.yaml` to `gltest.config.yaml` and
+`.env.example` to `.env`, fill only the local copies with those keys, and keep
+both files out of Git. The exact full-validator command is:
+
+```bash
+gltest --network testnet_bradbury --chain-type testnet_bradbury \
+  --contracts-dir contracts --artifacts-dir artifacts tests
+```
+
+Do not use `--leader-only`, and do not claim runtime evidence until raw
+leader/validator outputs and their manifest hashes are committed under
+`verification/supported_runtime/`.
+
 There are two receipts to verify for a write. First verify the EVM wrapper
 receipt: it must be successful and emit `NewTransaction`. A reverted wrapper
 (`status: 0x0`) is not a GenLayer transaction and must not trigger a second

@@ -36,6 +36,29 @@ cannot immediately add a second dispatch before the first callback resolves.
 The regression tests prove both that immediate duplicate paths are rejected
 and that a retry after the cooldown is accepted.
 
+### CM-002 — finalization deadlocked at the assessment deadline
+
+**Severity:** High correctness risk
+
+The deployed Registry/Core finalization path rejected every provisional result
+once `assessment_deadline` had passed, even when the unchallenged challenge
+window had already closed. Because the challenge deadline is intentionally
+capped at the assessment deadline, a valid provisional result could become
+permanently impossible to finalize and could only be expired.
+
+**Observed evidence:** the Bradbury finalization attempt
+`0x13f2fa1f30e42631150147189961f3fe154cf40b151d00097c0cadfc7998d133`
+was accepted by consensus but finished with the contract error
+`Assessment cannot be finalized`.
+
+**Resolution:** finalization now checks only that the assessment is an
+unchallenged provisional result, that the challenge window has closed, and
+that no decision has already been recorded. The assessment deadline still
+blocks assessment dispatch and repair-generation recovery; it no longer makes
+an already-provisional result unfinalizable. The canonical and generated
+deployment artifacts were regenerated, and the direct-VM regression test now
+finalizes after the assessment deadline.
+
 ## Controls verified
 
 - Program versions are write-once; terms and authority addresses are snapshotted.
@@ -54,7 +77,9 @@ and that a retry after the cooldown is accepted.
 - Registry callbacks are Adjudicator-only and must match the bound generation
   and evidence-set hash.
 - Provisional results cannot be finalized before the challenge window closes;
-  challenged, repair, expired, and already-finalized paths are gated.
+  challenged, repair, expired, and already-finalized paths are gated. A valid
+  provisional result remains finalizable after the assessment deadline once
+  its challenge window has closed.
 - Certificate digests include the assessment, evidence set, decision, times,
   and a monotonic decision nonce; used digests cannot be replayed.
 - No owner/admin verdict override exists in the reviewed contracts.
@@ -66,7 +91,7 @@ and that a retry after the cooldown is accepted.
 Executed in a fresh pinned virtual environment:
 
 ```text
-19 passed in 0.34s
+19 passed
 CERTIMESH_RELEASE_GATE=PASS
 FAIL supported-runtime evidence package is incomplete
 PASS deployment artifact is executable-AST equivalent
@@ -92,8 +117,10 @@ run.
 
 ## Residual risk / required external assurance
 
-The code review found no unresolved high-severity issue in the reviewed scope
-after CM-001 was fixed, but this cannot establish that the system has no
-weaknesses. Production submission should still obtain an independent security
-review and run the multi-validator Bradbury campaign with controlled test
-accounts before treating CertiMesh as externally audited or production-ready.
+CM-001 and CM-002 are resolved in the current source tree, but this cannot
+establish that the system has no weaknesses. The already-deployed Bradbury
+stack contains the pre-CM-002 artifact and must not be used for a submission
+claim; a fresh corrected deployment and end-to-end evidence run are required.
+Production submission should still obtain an independent security review and
+run the multi-validator Bradbury campaign with controlled test accounts before
+treating CertiMesh as externally audited or production-ready.

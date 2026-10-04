@@ -110,5 +110,14 @@
     "The adjudicator callback must record a provisional decision before the challenge window can begin.",
     "The unchallenged challenge window must close before finalize_assessment is submitted and verified.",
     "No certificate or submission-ready claim is made until those readbacks are verified."
-  ]
+  ],
+  "negative_evidence_follow_up": {
+    "recorded_at": "2026-10-04T01:40:15Z",
+    "attempt": "finalize assessment 1 after the capped challenge window closed",
+    "transaction_id": "0x13f2fa1f30e42631150147189961f3fe154cf40b151d00097c0cadfc7998d133",
+    "consensus_status": "ACCEPTED",
+    "execution_status": "FINISHED_WITH_ERROR",
+    "error": "Assessment cannot be finalized",
+    "root_cause": "The deployed artifact rejected finalization when assessment_deadline had passed even though the challenge window had closed. The corrected source removes that deadlock guard; this historical assessment remains non-finalizable and must not be retried."
+  }
 }

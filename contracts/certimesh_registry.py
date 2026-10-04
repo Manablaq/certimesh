@@ -198,7 +198,10 @@ class CertiMeshRegistry(gl.Contract):
         if a.state!=PROVISIONAL or a.challenged:_fail("Only unchallenged provisional assessments can be finalized")
         now=_now()
         if int(now)<=int(a.challenge_deadline):_fail("Challenge window has not closed")
-        if int(now)>=int(a.assessment_deadline) or a.decision_recorded:_fail("Assessment cannot be finalized")
+        # A provisional result may legitimately reach the challenge deadline at
+        # the assessment deadline. Once the challenge window has closed,
+        # finalization must remain possible even after assessment_deadline.
+        if a.decision_recorded:_fail("Assessment cannot be finalized")
         p=self._program(a.program_id,a.program_version); nonce=self.next_decision_nonce; self.next_decision_nonce=u256(int(nonce)+1); a.decision_nonce=nonce; a.final_decision=a.provisional_decision; a.decision_recorded=True; a.state=FINAL
         if a.provisional_decision==CERTIFIED:
             expires_at=u256(int(now)+int(p.certificate_validity_seconds)); digest=self._certificate_digest(a,now,expires_at,nonce)

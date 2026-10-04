@@ -178,7 +178,7 @@ class CertiMeshRegistry(gl.Contract):
 		if f.state!=G6 or f.challenged:G18('Only unchallenged provisional assessments can be finalized')
 		e=G22()
 		if int(e)<=int(f.challenge_deadline):G18('Challenge window has not closed')
-		if int(e)>=int(f.assessment_deadline)or f.decision_recorded:G18('Assessment cannot be finalized')
+		if f.decision_recorded:G18('Assessment cannot be finalized')
 		g=self.m2(f.program_id,f.program_version);d=self.next_decision_nonce;self.next_decision_nonce=u256(int(d)+1);f.decision_nonce=d;f.final_decision=f.provisional_decision;f.decision_recorded=True;f.state=G16
 		if f.provisional_decision==G9:
 			b=u256(int(e)+int(g.certificate_validity_seconds));c=self.m0(f,e,b,d)

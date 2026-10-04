@@ -911,8 +911,9 @@ evidence is unavailable, conflicting, or insufficient. Return no prose.
         now = _now()
         if int(now) <= int(assessment.challenge_deadline):
             _fail("Challenge window has not closed")
-        if int(now) >= int(assessment.assessment_deadline):
-            _fail("Assessment expired before finalization")
+        # A provisional result may legitimately reach the challenge deadline
+        # at the assessment deadline. Once the challenge window has closed,
+        # finalization must remain possible even after assessment_deadline.
         if assessment.decision_recorded:
             _fail("Decision has already been recorded")
         program = self._require_program(assessment.program_id, assessment.program_version)
