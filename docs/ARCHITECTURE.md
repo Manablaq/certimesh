@@ -61,11 +61,12 @@ in the certificate digest.
 
 The nondeterministic function has no storage writes. The Adjudicator fetches both committed
 sources, checks status/size/UTF-8/payload-and-content hashes, frames the bytes inside
-`UNTRUSTED_EVIDENCE`, and asks for exactly one JSON decision key. Subjective
-review uses GenLayer's non-comparative equivalence principle with strict
-format and metadata validation; validators independently verify the committed
-review output rather than requiring byte-for-byte model phrasing. A disagreement
-or malformed result produces no callback and is recoverable through the exact
-bound-request retry path.
+`UNTRUSTED_EVIDENCE`, and asks for exactly one JSON decision key. The leader and
+validator each execute that retrieval and committed-criteria evaluation. The
+validator then compares the complete validated result, including the decision,
+failure code, observed digest, evidence-set hash, generation, and identifiers;
+JSON shape alone is never sufficient. A disagreement or malformed result
+produces no callback and is recoverable through the exact bound-request retry
+path.
 The Registry callback accepts only the bound Adjudicator, the exact assessment
 generation, and the exact evidence-set digest.

@@ -221,7 +221,7 @@ def test_initial_assessment_dispatch_starts_retry_cooldown(
         registry.retry_assessment(assessment_id)
 
 
-def test_adjudicator_uses_subjective_equivalence_and_emits_validated_result(
+def test_adjudicator_recomputes_pinned_evidence_and_emits_validated_result(
     direct_vm, direct_deploy, direct_owner
 ):
     registry_address = "0x" + "55" * 20
@@ -269,18 +269,6 @@ def test_adjudicator_uses_subjective_equivalence_and_emits_validated_result(
     emitted = []
 
     def hook(_active_vm, request):
-        if "ExecPromptTemplate" in request:
-            return {
-                "ok": {
-                    "assessment_id": 7,
-                    "generation": 1,
-                    "evidence_set_hash": evidence_hash,
-                    "result_status": "OK",
-                    "decision": "CERTIFIED",
-                    "failure_code": "",
-                    "observed_sha256": "",
-                }
-            }
         if "CallContract" in request:
             data = request["CallContract"]
             if data.get("calldata", {}).get("method") == "get_review_context":
@@ -299,3 +287,11 @@ def test_adjudicator_uses_subjective_equivalence_and_emits_validated_result(
     direct_vm.sender = bytes.fromhex("55" * 20)
     adjudicator.assess(7, 1, evidence_hash)
     assert emitted
+
+    # The adversarial case rejected by review: a validator must not accept an
+    # opposite decision merely because both JSON objects have valid shape.
+    direct_vm.clear_mocks()
+    direct_vm.mock_web(r"primary\.example/records/subject-007", {"status": 200, "body": primary_text})
+    direct_vm.mock_web(r"corroborating\.example/records/subject-007", {"status": 200, "body": corroborating_text})
+    direct_vm.mock_llm(r"CERTIMESH_R1_ASSESSMENT_V1", json.dumps({"decision": "REJECTED"}))
+    assert direct_vm.run_validator() is False

@@ -26,6 +26,13 @@
   generation and evidence-set hash and cannot inject a new verdict.
 - The Registry contains no nondeterministic evaluator, and the Adjudicator has
   no public state-transition methods besides the Registry-authenticated review.
+- The Adjudicator validator independently re-fetches every bound source and
+  reruns the committed program criteria before accepting a leader result;
+  preserving a leader-supplied JSON object is not a valid validator proof.
+- Validator acceptance compares the complete validated result, including the
+  decision, failure code, observed digest, evidence-set hash, generation, and
+  identifiers, so opposite `CERTIFIED` and `REJECTED` outcomes cannot both
+  satisfy the consensus predicate.
 - Evidence is untrusted prompt data; it is never treated as protocol instructions.
 
 ## Threats rejected

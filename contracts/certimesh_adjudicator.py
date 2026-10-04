@@ -290,33 +290,33 @@ evidence is unavailable, conflicting, or insufficient. Return no prose.
         if int(assessment.get("assessment_id", 0)) != int(assessment_id) or int(assessment.get("generation", 0)) != int(generation) or assessment.get("evidence_set_hash") != evidence_set_hash:
             _fail("Registry review context does not match the request")
         # The cross-contract view returns a plain JSON snapshot, not a storage
-        # reference. Copy it before the nondeterministic closure so validators
-        # cannot observe mutable contract state through the callback path.
-        context_for_review = dict(context)
+        # reference. Freeze it before either nondeterministic execution so both
+        # leader and validator evaluate the exact same committed request.
+        context_for_review = json.loads(_canonical_json(context))
 
-        def evaluate_once() -> str:
-            return _canonical_json(self._evaluate_context(context_for_review))
+        def evaluate_once() -> dict:
+            # Leader path: retrieve both pinned sources and apply the committed
+            # program criteria inside _evaluate_context.
+            return self._evaluate_context(context_for_review)
 
-        result_raw = gl.eq_principle.prompt_non_comparative(
-            evaluate_once,
-            task=(
-                "Validate a CertiMesh adjudicator result represented as canonical JSON. "
-                "Return the exact same JSON object and values. Do not add, remove, "
-                "normalize, or reinterpret any field. Return no prose."
-            ),
-            criteria=(
-                "Accept only a valid JSON object with exactly these fields: "
-                "assessment_id, generation, evidence_set_hash, result_status, decision, "
-                "failure_code, observed_sha256. Every field value must be preserved "
-                "exactly from the input. result_status must be OK or REPAIR; decision "
-                "must be CERTIFIED, REJECTED, or REPAIR; OK pairs only with CERTIFIED "
-                "or REJECTED and REPAIR pairs only with REPAIR."
-            ),
-        )
-        try:
-            result = json.loads(result_raw) if isinstance(result_raw, str) else result_raw
-        except Exception:
-            _fail("Adjudication result is not valid JSON")
+        def validator_fn(candidate) -> bool:
+            # Validator path: independently repeat source retrieval and criteria
+            # evaluation. Comparing only JSON shape or preserved fields would
+            # allow CERTIFIED and REJECTED to both pass for the same request.
+            if not isinstance(candidate, gl.vm.Return):
+                return False
+            try:
+                leader_result = self._validate_result(
+                    context_for_review, candidate.calldata
+                )
+                validator_result = self._validate_result(
+                    context_for_review, self._evaluate_context(context_for_review)
+                )
+                return _canonical_json(leader_result) == _canonical_json(validator_result)
+            except Exception:
+                return False
+
+        result = gl.vm.run_nondet_unsafe(evaluate_once, validator_fn)
         result = self._validate_result(context_for_review, result)
         self.request_results[key] = _canonical_json(result)
         self._emit_result(result)

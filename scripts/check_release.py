@@ -121,8 +121,8 @@ def main() -> int:
                     continue
                 if not {"__init__", "registry_address", "assess"}.issubset(methods):
                     failures.append("adjudicator is missing authenticated assessment methods")
-                if "prompt_non_comparative" not in candidate:
-                    failures.append(f"subjective validator consensus boundary missing from {candidate_label}")
+                if "gl.vm.run_nondet_unsafe" not in candidate or "validator_fn" not in candidate:
+                    failures.append(f"independent validator recomputation boundary missing from {candidate_label}")
     if failures:
         for failure in failures:
             print(f"FAIL {failure}")
