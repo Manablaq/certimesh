@@ -41,12 +41,28 @@
     "adjudicator_decision": "CERTIFIED",
     "registry_callback_transaction": "0x7a44661b809cddfe59df5b76ca90b4a629f14f79a139cbeac440369d517aeff8",
     "registry_callback_status": "ACCEPTED",
-    "registry_state": "PROVISIONAL",
+    "registry_state": "FINAL",
     "provisional_decision": "CERTIFIED",
+    "final_decision": "CERTIFIED",
     "challenge_deadline": 1791087337,
+    "certificate_digest": "c4119fbd19133cc27bb3b8db284280238ddb3555407db09b53af67999a4403c0",
+    "decision_nonce": 1,
+    "issued_at": 1791090050,
+    "expires_at": 1791694850,
+    "finalization_transaction": "0x035bc8c4879d3d255518154bccffd5b4b1155a759289d124ec7daeaeb6b0b17a",
+    "finalization_execution_hash": "0x913a2df176aacad24ac04b0a0efbe48d96e2b66ff659f683aa6b0918a04854a4",
+    "finalization_receipt_status": "ACCEPTED",
+    "terminal_readback": {
+      "state": "FINAL",
+      "final_decision": "CERTIFIED",
+      "decision_recorded": true,
+      "certificate_digest": "c4119fbd19133cc27bb3b8db284280238ddb3555407db09b53af67999a4403c0",
+      "evidence_set_hash": "458116f0b565c7d496a5570a3c57f6df2e43ca224abf190f852a3df950136785",
+      "decision_nonce": 1
+    },
     "finalization": {
-      "status": "PENDING_CHALLENGE_WINDOW",
-      "next_action": "Finalize only after challenge_deadline, then read get_certificate(1)."
+      "status": "COMPLETE_ON_CHAIN_READBACK_RECEIPT_FINALITY_PENDING",
+      "next_action": "Wait for the finalization transaction receipt to reach FINALIZED; do not submit another finalization call."
     }
   }
 }
