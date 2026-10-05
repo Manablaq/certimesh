@@ -64,3 +64,19 @@ That record remains pending until the asynchronous adjudicator callback's
 unchallenged challenge window closes and `finalize_assessment(1)` is read back;
 the prior active record must not be used for the corrected retry-cooldown
 release.
+
+## Current validator-recomputation appeal run
+
+The finalized split-stack validator-recomputation campaign is recorded in
+[`verification/bradbury/validator-recomputation-run-20261005.json`](../verification/bradbury/validator-recomputation-run-20261005.json).
+It records the corrected program registry, assessment registry, evidence
+registry, and adjudicator deployments; finalized reciprocal bindings; two
+finalized independent evidence attestations; the assessment dispatch and
+callback; and the final `CERTIFIED` certificate after the challenge window.
+
+The adjudicator result reached consensus `AGREE`, but the receipt records two
+validator-local exceptions (`TIMEOUT` and `DETERMINISTIC_VIOLATION`) rather
+than claiming identical outputs from all five validators. The supported-runtime
+campaign was not run because no real three-account `gltest` configuration and
+raw validator outputs were available; the release remains fail-closed and no
+unsupported-runtime evidence is claimed.

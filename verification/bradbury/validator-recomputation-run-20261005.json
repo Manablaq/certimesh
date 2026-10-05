@@ -1,0 +1,178 @@
+{
+  "schema": "certimesh-validator-recomputation-bradbury-run-v1",
+  "recorded_at": "2026-10-05",
+  "status": "FINALIZED_CERTIFIED",
+  "network": "GenLayer Bradbury Testnet",
+  "chain_id": 4221,
+  "rpc_url": "https://rpc-bradbury.genlayer.com",
+  "consensus_contract": "0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D",
+  "explorer_base": "https://explorer-bradbury.genlayer.com/tx/",
+  "review_context": {
+    "reviewed_base_commit": "4983ddd093ca7832210295d470aca1673ce29c51",
+    "fix_commit": "b6e0ad40abd3376a726c1ce084fa39ddb968c939",
+    "source_commit": "18da0f7710ef2e86d7e2b2f7c068ec6655ec573f",
+    "source_commit_url": "https://github.com/Manablaq/certimesh/commit/18da0f7710ef2e86d7e2b2f7c068ec6655ec573f",
+    "finding_addressed": "The validator no longer accepts a leader-supplied JSON decision by shape or preservation alone; it independently retrieves the frozen evidence and reruns the committed criteria before comparing the complete result."
+  },
+  "source_hashes": {
+    "README.md": "155bda8bc1b1df7e208a7584298a1c2c1708e9fd7dde01369c66b38c70962abe",
+    "docs/SECURITY.md": "ac36cb63856fb64912b1bf65e241024eb36adeacce177617eba11ae47a127092",
+    "contracts/certimesh_program_registry.py": "457ed20764accf6a0d5ebae8b7c9b52d43dd4867557881381800ee300a8e70f3",
+    "contracts/certimesh_program_registry_deploy.py": "ca016e5e785a52e0bdc7b63887e4b4184d78b2237b1c56ed22b2e85d7f77394b",
+    "contracts/certimesh_registry.py": "dd382f7bdb29ff1acf8c6f59da23b5752ea53e2da557a72ec06d1c2c5ad0f196",
+    "contracts/certimesh_registry_deploy.py": "593fe14ef3726fb568b98ec23ce0b58d0df01d6bf85f54ed16f122f6b92faa27",
+    "contracts/certimesh_evidence_registry.py": "4c1c5942fd8c9f98c4bc1f1292f1b29109d03fdc1235db34700056f8bac87a7c",
+    "contracts/certimesh_evidence_registry_deploy.py": "1ce502712df43c5c4211dd54a54ed028a2042675326e7ad201eeb01b7f51468c",
+    "contracts/certimesh_adjudicator.py": "335cc6609111527f9f05bdab6fe874a5a15db944f568417993cce9e9cf668b71",
+    "contracts/certimesh_adjudicator_deploy.py": "8fa8eaba39a773f1bcb212a1f924c5866cdfee021054e7baa491677b19f9b51e",
+    "tests/test_certimesh_direct.py": "e7a328b1c0ff063ebb30619041805bd357d9d6c47aa8e6a501ba7946346b0e9b",
+    "tests/test_certimesh_split.py": "89b54fc58ef6410067228ed14ebb2513c4a42350ad2719ed3bbfa1e09d198d83",
+    "scripts/check_release.py": "d65e9c02188cb894f87f7635c831de530cb459c2c9ad7a441fbd073b59aba12c"
+  },
+  "contracts": {
+    "program_registry": {
+      "address": "0xc8d1C6696b2d86C7d3d5EbFC55CFaA2bB68862d6",
+      "deployment_transaction": "0xce3ef49cd2ccdefc25f69a2c0b91f09466424ee4862e73aee442e32eb9d6ef9",
+      "deployment_status": "FINALIZED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    },
+    "assessment_registry": {
+      "address": "0xb2d3371F1Ea3Cf8d7575AcD2f617663624E734F9",
+      "deployment_transaction": "0xd7c6bc1e7147b61f7172dac8745196dd02437c06ec66065c3675d755a7d3e94f",
+      "deployment_status": "FINALIZED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    },
+    "evidence_registry": {
+      "address": "0x71De5a1baFDD75057D19335BCc34AC851b2888a0",
+      "deployment_transaction": "0x3eb67d87e10d53ccacb2ac5ccd595347db785195c5ef5e06a3b30f144edfce7b",
+      "deployment_status": "FINALIZED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    },
+    "adjudicator": {
+      "address": "0xe77E0064f07E1162f5851665FEBDa4fAD64D2BAb",
+      "deployment_transaction": "0x7e352de918818f27bca761012407bd5c9209b15c3029daac4ed84ab98c6a6185",
+      "deployment_status": "FINALIZED",
+      "deployment_execution": "FINISHED_WITH_RETURN"
+    },
+    "program_creation": {
+      "program_id": "certimesh-validator-fix-20261004",
+      "version": 1,
+      "transaction": "0xad1584e041ef57328574db0383bc7f4522cd80035bff4d23049cfac8c1a28240",
+      "status": "FINALIZED",
+      "execution": "FINISHED_WITH_RETURN",
+      "criteria_json": "{\"all\":[\"subject satisfies every committed criterion\"]}",
+      "evidence_policy_json": "{\"max_age_seconds\":86400,\"require_independent_sources\":true}",
+      "primary_authority": "0x1f87ae197af539253978d435ad45ccf28fb95024",
+      "corroborating_authority": "0x5bb49021001200fe8156a81c7fcf097e535e7181",
+      "challenge_window_seconds": 3600,
+      "max_evidence_age_seconds": 86400,
+      "certificate_validity_seconds": 604800,
+      "max_assessment_horizon_seconds": 259200
+    },
+    "bindings": {
+      "evidence_registry": {
+        "transaction": "0x1832f9d1778a3497296bf1da32e6465301f1787a2cc2a6cee839da70c4295cb8",
+        "status": "FINALIZED",
+        "execution": "FINISHED_WITH_RETURN"
+      },
+      "adjudicator": {
+        "transaction": "0x5581aa1e9b7db3f2e28e30f79def5b103765aac0fe3db029a12c7f6f786c9c84",
+        "status": "FINALIZED",
+        "execution": "FINISHED_WITH_RETURN"
+      }
+    }
+  },
+  "evidence": {
+    "primary": {
+      "role": 1,
+      "authority": "0x1f87ae197af539253978d435ad45ccf28fb95024",
+      "transaction": "0x1778af6983618d23812560df3d1964e082da67a43086e294e67864f1528e2738",
+      "status": "FINALIZED",
+      "execution": "FINISHED_WITH_RETURN",
+      "record_id": "validator-fix-readme-20261005",
+      "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/18da0f7710ef2e86d7e2b2f7c068ec6655ec573f/README.md",
+      "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/18da0f7710ef2e86d7e2b2f7c068ec6655ec573f/README.md",
+      "sha256": "155bda8bc1b1df7e208a7584298a1c2c1708e9fd7dde01369c66b38c70962abe"
+    },
+    "corroborating": {
+      "role": 2,
+      "authority": "0x5bb49021001200fe8156a81c7fcf097e535e7181",
+      "transaction": "0x9080d5ff738b6509269b653bb5dd8bd21625e04adc4597f28f94b30c5a92349c",
+      "status": "FINALIZED",
+      "execution": "FINISHED_WITH_RETURN",
+      "record_id": "validator-fix-security-20261005",
+      "source_url": "https://raw.githubusercontent.com/Manablaq/certimesh/18da0f7710ef2e86d7e2b2f7c068ec6655ec573f/docs/SECURITY.md",
+      "immutable_source_ref": "https://github.com/Manablaq/certimesh/blob/18da0f7710ef2e86d7e2b2f7c068ec6655ec573f/docs/SECURITY.md",
+      "sha256": "ac36cb63856fb64912b1bf65e241024eb36adeacce177617eba11ae47a127092"
+    },
+    "binding_transaction": "0x9a68fb36af2e26a3f9ebca49e8a63bb4dee6b2baa44f251466cadf59ab2de805",
+    "binding_status": "FINALIZED",
+    "bound_snapshot": {
+      "bound": true,
+      "generation": 1,
+      "evidence_set_hash": "230242da89c5afde1e03834e2ed09f2b037c9dd8a245d64544a9b7c98efb6111"
+    }
+  },
+  "assessment": {
+    "assessment_id": 1,
+    "generation": 1,
+    "program_id": "certimesh-validator-fix-20261004",
+    "program_version": 1,
+    "subject_id": "proofpatch-validator-recomputation-20261005",
+    "subject_digest": "ed27bde8b7a05e9f3bf3847d40130c1f3ec4b31fa8396237631e6fe80556a654",
+    "assessment_deadline": 1791359938,
+    "create_transaction": "0x8488183fbc1efd64fc9b570184cb9897003337ac4924154dadff5cccc9b180c4",
+    "create_status": "FINALIZED",
+    "assessment_dispatch_transaction": "0xb0f1620b2707b59bb6e9fa9e4f7ba292c51d31b9610e8e141a686e54806381d5",
+    "assessment_dispatch_status": "FINALIZED",
+    "assessment_dispatch_execution": "FINISHED_WITH_RETURN",
+    "adjudicator_child_transaction": "0xdeb2671fc96234163b198340105c37efeee2d4b30668699de25eb48f10861fb5",
+    "adjudicator_child_status": "FINALIZED",
+    "adjudicator_child_execution": "FINISHED_WITH_RETURN",
+    "adjudicator_child_execution_hash": "0x99265b781c8c289514684603e55323d28335cb87380adf0b0d9a64ee9be5ec5a",
+    "adjudicator_result": {
+      "result_status": "OK",
+      "decision": "CERTIFIED",
+      "generation": 1,
+      "evidence_set_hash": "230242da89c5afde1e03834e2ed09f2b037c9dd8a245d64544a9b7c98efb6111",
+      "validator_votes": ["AGREE", "AGREE", "TIMEOUT", "AGREE", "DETERMINISTIC_VIOLATION"],
+      "consensus_result": "AGREE",
+      "consensus_execution": "FINISHED_WITH_RETURN"
+    },
+    "registry_callback_transaction": "0xef79ade5fbbbd12ae062603aaf49f7914ec397b3a48f1628719a4d6518660ffb",
+    "registry_callback_status": "FINALIZED",
+    "registry_callback_execution": "FINISHED_WITH_RETURN",
+    "provisional_decision": "CERTIFIED",
+    "challenge_deadline": 1791202661,
+    "challenged": false,
+    "finalization_transaction": "0xebfd74f910d89914a60b2d40eaed0f84f22efff1926d33938ec9ae67e9e0a712",
+    "finalization_status": "FINALIZED",
+    "finalization_execution": "FINISHED_WITH_RETURN",
+    "final_state": "FINAL",
+    "final_decision": "CERTIFIED",
+    "decision_recorded": true,
+    "decision_nonce": 1,
+    "certificate_digest": "5bdd51ca2ac0f00d2bf45639d73bf1e52bef89dc7b91aa0370d2c8bab882961a",
+    "issued_at": 1791204184,
+    "expires_at": 1791808984
+  },
+  "negative_evidence": {
+    "wrong_target_bind_attempt": {
+      "transaction": "0xd3a8e2646c36cac5505d8c371847388deff4bf4f710aad10341a8c09898d9dd0",
+      "status": "FINALIZED",
+      "execution": "FINISHED_WITH_ERROR",
+      "trace_error": "call to private method `<function Contract.__handle_undefined_method__>`",
+      "interpretation": "The bind was first sent to the Assessment Registry, which has no public bind_evidence method. The failed call produced no storage changes; the correct bind was then sent to the Evidence Registry and finalized successfully."
+    }
+  },
+  "verification": {
+    "full_direct_mode_command": "/Users/mralbert/Documents/Codex/2026-09-14/me/work/verdictgraph/.venv/bin/python -m pytest -q",
+    "full_direct_mode_result": "19 passed",
+    "release_gate_command": "python3 scripts/check_release.py",
+    "release_gate_result": "CERTIMESH_RELEASE_GATE=PASS",
+    "supported_runtime_gate_command": "python3 scripts/check_supported_runtime_bundle.py",
+    "supported_runtime_gate_result": "FAIL: supported-runtime evidence package is incomplete",
+    "supported_runtime_campaign": "NOT_RUN",
+    "supported_runtime_note": "No real three-account Bradbury gltest.config.yaml/.env or raw leader/validator outputs were available. No unsupported-runtime evidence is claimed or fabricated."
+  }
+}
